@@ -68,21 +68,24 @@ int main(){
 		for(n=500; n<=N; n=n*2){
 			printf("|%6d\t|",n);
 			t=timeTest2(v, n, 1, umbral);
-			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/pow(n, 1.11), t/(pow(n, 1.3)));
+			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/(pow(n, 1.3)));
+			//1.11
 		}printf("\n");
 
 		printf("|ascendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
 		for(n=500; n<=N; n=n*2){
 			printf("|%6d\t|",n);
 			t=timeTest2(v, n, 2, umbral);
-			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/pow(n, 1.14), t/pow(n, 1.3));
+			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/pow(n, 1.3));
+			//1.14
 		}printf("\n");
 
 		printf("|descendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
 		for(n=500; n<=N; n=n*2){
 			printf("|%6d\t|",n);
 			t=timeTest2(v, n, 3, umbral);
-			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/pow(n, 1.11), t/pow(n, 1.3));
+			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/pow(n, 1.3));
+			//1.11
 		}printf("\n");
 	}
 	return 0;
