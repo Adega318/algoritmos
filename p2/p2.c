@@ -31,7 +31,7 @@ double timeTest2(int v[], int n, int tipo);
 #define N 32000
 #define T 500
 #define K 1000
-#define umbral 100
+#define umbral 10
 
 int main(){
 	int v[N];
@@ -60,7 +60,7 @@ int main(){
 	for(n=500; n<=N; n=n*2){
 		printf("|%6d\t|",n);
 		t=timeTest(v, n, 3);
-		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1.8), t/pow(n, 2), t/pow(n, 2.2));
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1.8), t/pow(n, 1.99), t/pow(n, 2.2));
 	}printf("\n");
 
 	//tiempos de ordenación rápida con umbrales 1, 10 y 100
@@ -69,21 +69,21 @@ int main(){
 	for(n=500; n<=N; n=n*2){
 		printf("|%6d\t|",n);
 		t=timeTest2(v, n, 1);
-		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/CAleatoria(n), t/(pow(n, 1.3)));
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/pow(n,1.12)/*CAleatoria(n)*/, t/(pow(n, 1.3)));
 	}printf("\n");
 
 	printf("|ascendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
 	for(n=500; n<=N; n=n*2){
 		printf("|%6d\t|",n);
 		t=timeTest2(v, n, 2);
-		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/CAscendente(n), t/pow(n, 1.3));
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/pow(n,1.12)/*CAscendente(n)*/, t/pow(n, 1.3));
 	}printf("\n");
 
 	printf("|descendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
 	for(n=500; n<=N; n=n*2){
 		printf("|%6d\t|",n);
 		t=timeTest2(v, n, 3);
-		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/CDescendente(n), t/pow(n, 1.3));
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/pow(n,1.12)/*CDescendente(n)pow(n,1.12)*/, t/pow(n, 1.3));
 	}printf("\n");
 	return 0;
 }
@@ -224,13 +224,13 @@ double CAleatoria(int n){
 	switch (umbral)
 	{
 	case 1:
-		potencia=1.10920;
+		potencia=1.11;
 		break;
 	case 10:
-		potencia=1.12212;
+		potencia=1.12;
 		break;
 	case 100:
-		potencia=1.11066;
+		potencia=1.11;
 		break;
 	default:
 		potencia=1;
@@ -244,13 +244,13 @@ double CAscendente(int n){
 	switch (umbral)
 	{
 	case 1:
-		potencia=1.08706;
+		potencia=1.09;
 		break;
 	case 10:
-		potencia=1.12423;
+		potencia=1.12;
 		break;
 	case 100:
-		potencia=1.21391;
+		potencia=1.21;
 		break;
 	default:
 		potencia=1;
@@ -264,13 +264,13 @@ double CDescendente(int n){
 	switch (umbral)
 	{
 	case 1:
-		potencia=1.08562;
+		potencia=1.08;
 		break;
 	case 10:
-		potencia=1.10663;
+		potencia=1.11;
 		break;
 	case 100:
-		potencia=1.13627;
+		potencia=1.14;
 		break;
 	default:
 		potencia=1;

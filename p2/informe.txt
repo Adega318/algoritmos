@@ -7,20 +7,20 @@ Kernel: Linux lenovo 5.19.9-201.fsync.fc36.x86_64
 
 
 >>Introducción
-Esta práctica consiste en la medición de tiempos de dos algoritos de ordenación en diferentes casos iniciales y el cálculo de las cotas
- con el coeficiente respecto al tiempo.
-Los diferentes casos iniciales del vector a ordenar son ascendente, descendente y aleatorio. 
-El primer algoritmo utilizado es ordenación por inserción y el segundo es ordenación rápida con un umbral que indica 
- el tamaño hasta el que se reducirá las divisiones del vector original antes de ejecutar el primer 
- algoritmo para realizar la ordenación de esas divisiones.
+Esta práctica consiste en la medición de tiempos de dos algoritos de ordenación en diferentes casos iniciales y
+el cálculo de las cotas con el coeficiente respecto al tiempo. Los diferentes casos iniciales del vector a
+ordenar son ascendente, descendente y aleatorio.
+Los algoritmos utilizados son la ordenación por inserción y ordenación rapida. La ordenación rapida hace uso de
+la ordenación por inserción para realizar la ordenación final de los vectores, esto es controlado por el valor
+umbral.
 
 
 >>Notas
 Se probarán los algoritmos con 7 tamaños de vector: 500, 1000, 2000, 4000, 8000, 16000 y 32000.
 En las pruebas del algoritmo de ordenación rápida se emplearán tres umbrales: 1, 10 y 100.
 Las mediciones se hacen en microsegundos.
-Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se calculará la media de 1000 ejecuciones, indicado por 
- “(*)” en las tablas.
+Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se calculará la media de 1000
+ejecuciones, indicado por “(*)” en las tablas.
 
 
 >>Ordenación por inserción
@@ -68,178 +68,188 @@ En el caso de la ordenación por inserción de un vector ascendente, las cotas s
 
 En el caso de la ordenación por inserción de un vector descendente, las cotas son las siguientes:
 	Subestimada: n^1.8, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n^2, su cociente con los tiempos reales es estable con valores cercanos al 0.0026…
+	Ajustada: n^1.99, su cociente con los tiempos reales es estable con valores cercanos al 0.0026…
 	Sobrestimada: n^2.2, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 >>Ordenación rápida umbral: 1
 |aleatorio:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      86.07100	| 0.17214200	| 0.02769957	| 0.00413528
-|  1000	|(*)     188.33500	| 0.18833500	| 0.02726428	| 0.00298491
-|  2000	|(*)     399.65800	| 0.19982900	| 0.02629017	| 0.00208949
-|  4000	|        900.00000	| 0.22500000	| 0.02712788	| 0.00155220
-|  8000	|       1986.00000	| 0.24825000	| 0.02762263	| 0.00112989
-| 16000	|       4085.00000	| 0.25531250	| 0.02637432	| 0.00076666
-| 32000	|       8555.00000	| 0.26734375	| 0.02577182	| 0.00052964
+|   500	|(*)      83.43700	| 0.16687400	| 0.08423682	| 0.02586412
+|  1000	|(*)     182.56300	| 0.18256300	| 0.08539113	| 0.02298332
+|  2000	|(*)     381.20900	| 0.19060450	| 0.08260757	| 0.01949055
+|  4000	|        871.00000	| 0.21775000	| 0.08744431	| 0.01808590
+|  8000	|       1886.00000	| 0.23575000	| 0.08772266	| 0.01590467
+| 16000	|       3929.00000	| 0.24556250	| 0.08466596	| 0.01345631
+| 32000	|       8585.00000	| 0.26828125	| 0.08570849	| 0.01194113
 
 En el caso de la ordenación rápida de umbral 1 de un vector aleatorio, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.027…
+	Ajustada: n^1.11, su cociente con los tiempos reales es estable con valores cercanos al 0.086…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 |ascendente:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      51.65400	| 0.10330800	| 0.01662341	| 0.00248172
-|  1000	|(*)     109.68400	| 0.10968400	| 0.01587839	| 0.00173837
-|  2000	|(*)     231.98400	| 0.11599200	| 0.01526029	| 0.00121286
-|  4000	|(*)     480.90200	| 0.12022550	| 0.01449539	| 0.00082939
-|  8000	|       1094.00000	| 0.13675000	| 0.01521609	| 0.00062241
-| 16000	|       2051.00000	| 0.12818750	| 0.01324204	| 0.00038492
-| 32000	|       4479.00000	| 0.13996875	| 0.01349293	| 0.00027729
+|   500	|(*)      50.49300	| 0.10098600	| 0.05772366	| 0.01565201
+|  1000	|(*)     101.82000	| 0.10182000	| 0.05468058	| 0.01281838
+|  2000	|(*)     216.87800	| 0.10843900	| 0.05471329	| 0.01108859
+|  4000	|(*)     454.43400	| 0.11360850	| 0.05385493	| 0.00943611
+|  8000	|       1039.00000	| 0.12987500	| 0.05784255	| 0.00876191
+| 16000	|       2032.00000	| 0.12700000	| 0.05314139	| 0.00695933
+| 32000	|       4303.00000	| 0.13446875	| 0.05286374	| 0.00598517
 
 En el caso de la ordenación rápida de umbral 1 de un vector ascendente, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.014…
+	Ajustada: n^1.09, su cociente con los tiempos reales es estable con valores cercanos al 0.055…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 |descendente:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      52.38100	| 0.10476200	| 0.01685738	| 0.00251664
-|  1000	|(*)     111.30900	| 0.11130900	| 0.01611363	| 0.00176413
-|  2000	|(*)     231.37900	| 0.11568950	| 0.01522050	| 0.00120970
-|  4000	|(*)     487.82300	| 0.12195575	| 0.01470401	| 0.00084133
-|  8000	|       1064.00000	| 0.13300000	| 0.01479883	| 0.00060534
-| 16000	|       2132.00000	| 0.13325000	| 0.01376501	| 0.00040012
-| 32000	|       4726.00000	| 0.14768750	| 0.01423701	| 0.00029259
+|   500	|(*)      50.66100	| 0.10132200	| 0.06162915	| 0.01570409
+|  1000	|(*)     104.72600	| 0.10472600	| 0.06026352	| 0.01318422
+|  2000	|(*)     218.56500	| 0.10928250	| 0.05949332	| 0.01117485
+|  4000	|(*)     465.63900	| 0.11640975	| 0.05995488	| 0.00966877
+|  8000	|       1022.00000	| 0.12775000	| 0.06224632	| 0.00861854
+| 16000	|       2146.00000	| 0.13412500	| 0.06182728	| 0.00734977
+| 32000	|       4591.00000	| 0.14346875	| 0.06256700	| 0.00638576
 
 En el caso de la ordenación rápida de umbral 1 de un vector descendente, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.014…
+	Ajustada: n^1.08, su cociente con los tiempos reales es estable con valores cercanos al 0.061…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 >>Ordenación rápida umbral: 10
 |aleatorio:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      72.09600	| 0.14419200	| 0.02320211	| 0.00346385
-|  1000	|(*)     167.20400	| 0.16720400	| 0.02420526	| 0.00265000
-|  2000	|(*)     374.59300	| 0.18729650	| 0.02464135	| 0.00195845
-|  4000	|        813.00000	| 0.20325000	| 0.02450552	| 0.00140215
-|  8000	|       1728.00000	| 0.21600000	| 0.02403419	| 0.00098310
-| 16000	|       3538.00000	| 0.22112500	| 0.02284268	| 0.00066400
-| 32000	|       7868.00000	| 0.24587500	| 0.02370224	| 0.00048711
+|   500	|(*)      73.16900	| 0.14633800	| 0.06941938	| 0.02268120
+|  1000	|(*)     162.43200	| 0.16243200	| 0.07090414	| 0.02044898
+|  2000	|(*)     347.30300	| 0.17365150	| 0.06975172	| 0.01775700
+|  4000	|        702.00000	| 0.17550000	| 0.06486791	| 0.01457670
+|  8000	|       1631.00000	| 0.20387500	| 0.06934149	| 0.01375425
+| 16000	|       3375.00000	| 0.21093750	| 0.06601755	| 0.01155893
+| 32000	|       7470.00000	| 0.23343750	| 0.06722838	| 0.01039024
 
 En el caso de la ordenación rápida de umbral 10 de un vector aleatorio, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.024…
+	Ajustada: n^1.12, su cociente con los tiempos reales es estable con valores cercanos al 0.069…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 |ascendente:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      32.22700	| 0.06445400	| 0.01037137	| 0.00154835
-|  1000	|(*)      71.18400	| 0.07118400	| 0.01030494	| 0.00112819
-|  2000	|(*)     149.11400	| 0.07455700	| 0.00980897	| 0.00077960
-|  4000	|(*)     327.58800	| 0.08189700	| 0.00987419	| 0.00056498
-|  8000	|        670.00000	| 0.08375000	| 0.00931881	| 0.00038118
-| 16000	|       1579.00000	| 0.09868750	| 0.01019463	| 0.00029634
-| 32000	|       3158.00000	| 0.09868750	| 0.00951343	| 0.00019551
+|   500	|(*)      31.19800	| 0.06239600	| 0.02959923	| 0.00967087
+|  1000	|(*)      67.22300	| 0.06722300	| 0.02934390	| 0.00846287
+|  2000	|(*)     142.08200	| 0.07104100	| 0.02853550	| 0.00726441
+|  4000	|(*)     305.27800	| 0.07631950	| 0.02820904	| 0.00633895
+|  8000	|        681.00000	| 0.08512500	| 0.02895252	| 0.00574289
+| 16000	|       1508.00000	| 0.09425000	| 0.02949762	| 0.00516470
+| 32000	|       3081.00000	| 0.09628125	| 0.02772833	| 0.00428545
 
 En el caso de la ordenación rápida de umbral 10 de un vector ascendente, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.010…
+	Ajustada: n^1.12, su cociente con los tiempos reales es estable con valores cercanos al 0.029…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 |descendente:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      36.60100	| 0.07320200	| 0.01177902	| 0.00175849
-|  1000	|(*)      79.72900	| 0.07972900	| 0.01154195	| 0.00126362
-|  2000	|(*)     167.10500	| 0.08355250	| 0.01099244	| 0.00087366
-|  4000	|(*)     366.71900	| 0.09167975	| 0.01105368	| 0.00063247
-|  8000	|        824.00000	| 0.10300000	| 0.01146075	| 0.00046880
-| 16000	|       1656.00000	| 0.10350000	| 0.01069177	| 0.00031079
-| 32000	|       3441.00000	| 0.10753125	| 0.01036597	| 0.00021303
+|   500	|(*)      34.04000	| 0.06808000	| 0.03436631	| 0.01055185
+|  1000	|(*)      74.10000	| 0.07410000	| 0.03465917	| 0.00932864
+|  2000	|(*)     158.25100	| 0.07912550	| 0.03429282	| 0.00809110
+|  4000	|(*)     333.10100	| 0.08327525	| 0.03344178	| 0.00691668
+|  8000	|        667.00000	| 0.08337500	| 0.03102387	| 0.00562482
+| 16000	|       1550.00000	| 0.09687500	| 0.03340093	| 0.00530855
+| 32000	|       3382.00000	| 0.10568750	| 0.03376425	| 0.00470412
 
 En el caso de la ordenación rápida de umbral 10 de un vector descendente, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.011…
+	Ajustada: n^1.11, su cociente con los tiempos reales es estable con valores cercanos al 0.034…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 >>Ordenación rápida umbral: 100
 |aleatorio:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      82.06300	| 0.16412600	| 0.02640971	| 0.00394271
-|  1000	|(*)     179.79900	| 0.17979900	| 0.02602857	| 0.00284962
-|  2000	|(*)     391.35800	| 0.19567900	| 0.02574418	| 0.00204610
-|  4000	|        861.00000	| 0.21525000	| 0.02595234	| 0.00148493
-|  8000	|       1911.00000	| 0.23887500	| 0.02657948	| 0.00108722
-| 16000	|       3871.00000	| 0.24193750	| 0.02499266	| 0.00072649
-| 32000	|       8258.00000	| 0.25806250	| 0.02487711	| 0.00051125
+|   500	|(*)      85.40300	| 0.17080600	| 0.08622167	| 0.02647355
+|  1000	|(*)     186.06700	| 0.18606700	| 0.08703007	| 0.02342445
+|  2000	|(*)     386.31900	| 0.19315950	| 0.08371490	| 0.01975182
+|  4000	|        872.00000	| 0.21800000	| 0.08754471	| 0.01810667
+|  8000	|       1856.00000	| 0.23200000	| 0.08632729	| 0.01565168
+| 16000	|       3969.00000	| 0.24806250	| 0.08552792	| 0.01359331
+| 32000	|       8609.00000	| 0.26903125	| 0.08594809	| 0.01197451
 
 En el caso de la ordenación rápida de umbral 100 de un vector aleatorio, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.025…
+	Ajustada: n^1.11, su cociente con los tiempos reales es estable con valores cercanos al 0.085…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 |ascendente:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      14.49400	| 0.02898800	| 0.00466449	| 0.00069636
-|  1000	|(*)      35.93300	| 0.03593300	| 0.00520183	| 0.00056950
-|  2000	|(*)      89.31100	| 0.04465550	| 0.00587503	| 0.00046694
-|  4000	|(*)     212.29900	| 0.05307475	| 0.00639914	| 0.00036614
-|  8000	|(*)     439.93300	| 0.05499163	| 0.00611889	| 0.00025029
-| 16000	|        921.00000	| 0.05756250	| 0.00594633	| 0.00017285
-| 32000	|       2236.00000	| 0.06987500	| 0.00673592	| 0.00013843
+|   500	|(*)      14.30000	| 0.02860000	| 0.00775501	| 0.00443277
+|  1000	|(*)      35.11900	| 0.03511900	| 0.00823270	| 0.00442122
+|  2000	|(*)      83.64300	| 0.04182150	| 0.00847585	| 0.00427652
+|  4000	|(*)     189.31000	| 0.04732750	| 0.00829241	| 0.00393093
+|  8000	|(*)     413.62700	| 0.05170338	| 0.00783195	| 0.00348812
+| 16000	|        990.00000	| 0.06187500	| 0.00810308	| 0.00339062
+| 32000	|       2048.00000	| 0.06400000	| 0.00724600	| 0.00284862
 
 En el caso de la ordenación rápida de umbral 100 de un vector ascendente, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.006…
+	Ajustada: n^1.21, su cociente con los tiempos reales es estable con valores cercanos al 0.080…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 |descendente:
 |n:	|t(n)			|subestimada	|ajustada	|sobrestimada
-|   500	|(*)      22.18500	| 0.04437000	| 0.00713963	| 0.00106588
-|  1000	|(*)      45.73000	| 0.04573000	| 0.00662010	| 0.00072477
-|  2000	|(*)     100.04400	| 0.05002200	| 0.00658106	| 0.00052305
-|  4000	|(*)     226.21100	| 0.05655275	| 0.00681847	| 0.00039014
-|  8000	|(*)     489.88500	| 0.06123563	| 0.00681365	| 0.00027871
-| 16000	|       1112.00000	| 0.06950000	| 0.00717950	| 0.00020870
-| 32000	|       2330.00000	| 0.07281250	| 0.00701909	| 0.00014425
+|   500	|(*)      21.34800	| 0.04269600	| 0.01788675	| 0.00661753
+|  1000	|(*)      45.06000	| 0.04506000	| 0.01713133	| 0.00567272
+|  2000	|(*)      98.03000	| 0.04901500	| 0.01691160	| 0.00501210
+|  4000	|(*)     205.81100	| 0.05145275	| 0.01611091	| 0.00427357
+|  8000	|(*)     457.94900	| 0.05724362	| 0.01626652	| 0.00386189
+| 16000	|       1294.00000	| 0.08087500	| 0.02085631	| 0.00443178
+| 32000	|       2539.00000	| 0.07934375	| 0.01856914	| 0.00353157
 
 En el caso de la ordenación rápida de umbral 100 de un vector descendente, las cotas son las siguientes:
 	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n*log(n), su cociente con los tiempos reales es estable con valores cercanos al 0.006…
+	Ajustada: n^1.14, su cociente con los tiempos reales es estable con valores cercanos al 0.017…
 	Sobrestimada: n^1.6, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 >>Observaciones
 
-Con respecto a la ordenación por inserción, observando las ordenaciones de los vectores descendente y aleatorio, podemos asumir n^1.98 como la complejidad, reduciéndose a n para el caso ascendente.
+Con respecto a la ordenación por inserción, observando las ordenaciones de los vectores descendente y aleatorio,
+podemos asumir n^1.99 como la complejidad, reduciéndose a n para el caso ascendente.
 
-Con respecto a la ordenación rápida observamos complejidades de n*log(n).
+Con respecto a la ordenación rápida observamos complejidades dependiente del umbral y caso inicial del vector:
+|umbral |Aleatoria |Acendente |Descendente
+|     1 |   n^1.11 |   n^1.09 |     n^1.08
+|    10 |   n^1.12 |   n^1.12 |     n^1.11
+|   100 |   n^1.11 |   n^1.21 |     n^1.14
 
 
 >>Conclusiones
 
-Observando los tiempos de ejecución en función del vector proporcionado, podemos observar que para el de inserción los tiempos de ordenación en
- función del tiempo son, ascendente, aleatorio y descendente, siendo el aleatorio el más rápido con una amplia diferencia. Por otro lado, el
- algoritmo de ordenación rápida tiene como más rápido el descendente, con una diferencia mínima, el ascendente y por último, como el más lento, el
- aleatorio.
-
-Comparando los tiempos de ejecución de ambos algoritmos, podemos concluir que el de ordenación rápida es más eficiente que el de ordenación por
- inserción, a excepción del caso de la ordenación de un vector ya ordenado donde el de inserción reporta menores tiempos.
-
-El algoritmo de ordenación rápida podemos obtener el mejor rendimiento para el vector aleatorio con un umbral 10 y para un vector ascendente y
- descendente con un umbral 100. Lo que nos lleva a la conclusión que para vectores descendentes y ascendentes es ventajoso aprovechar la ordenación
- por inserción en gran medida, cuando para un vector aleatorio el uso de un umbral de 100 reporta tiempos similares al uso de un umbral de 1. Lo 
- que nos indica que en vectores aleatorios la inserción se debe mantener en valores bajos, siendo el umbral 10 el que retorna mejores valores en 
- las pruebas.
+Fijándonos en los tiempos de ordenación del algoritmo de inserción en función de los casos iniciales vemos que
+el ascendente el más rápido con una amplia diferencia, seguido del aleatorio y descendente respectivamente. Con
+respecto a la cota ajustada del algoritmo, en función del caso inicial obtenemos n^1.99 para aleatorio y
+descendente y obtenemos n para ascendente, si comparamos la complejidad teórica de n^2 con n^1.99 vemos una
+diferencia mínima, que se hace acentuada al ver el caso inicial ascendente de complejidad n.
 
 
+Con respecto a la ordenación rápida vemos la velocidad de los casos variar con el umbral, pero se mantienen las
+relaciones entre ellos con el caso más rápido, siendo el ascendente seguido de descendente y por último
+aleatorio.
+Fijándonos en los efectos del umbral sobre los tiempos, vemos que para mayores umbrales los tiempos de los casos
+ascendente y descendente mejoran cuando, por otra parte, el caso aleatorio obtiene su mejor tiempo con umbral
+10, perdiendo eficiencia con umbral 1 y 100.
+Con respecto a las cotas del algoritmo podemos diferenciarlas significativamente por umbral y caso inicial. Si
+nos fijamos en la cota en función del umbral podemos ver que los casos iniciales Ascendente y Descendente tienen
+gran variación en función del umbral cuando Aleatorio es estable con una cota de n^1.11, cabe mencionar el caso
+del umbral 10 donde la cota tiende a n^1.12 para todos los casos iniciales. Sí, nos fijamos, por lo contrario,
+en los casos iniciales vemos que las mayores cotas las obtiene Ascendete seguidos de Aleatorio y descendente. En
+le caso de dar una cota ajustada única se debería de dar una en trono a los n^1.12 siendo un valor medio que da
+una cota adecuada más adecuada, lo que diferencia sustancialmente de la nlog(n) teórica.
