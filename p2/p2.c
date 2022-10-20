@@ -20,6 +20,9 @@ void ord_ins(int v[], int n);
 double microsegundos();
 void setvect(int v[], int n, int tipo);
 double timeTest(int v[], int n, int tipo);
+double CAleatoria(int n);
+double CAscendente(int n);
+double CDescendente(int n);
 void intercambio(int v[], int a, int b);
 void rapida_aux(int v[], int izq, int der);
 void ord_rapida(int v[], int n);
@@ -28,7 +31,7 @@ double timeTest2(int v[], int n, int tipo);
 #define N 32000
 #define T 500
 #define K 1000
-#define umbral 1
+#define umbral 100
 
 int main(){
 	int v[N];
@@ -66,23 +69,21 @@ int main(){
 	for(n=500; n<=N; n=n*2){
 		printf("|%6d\t|",n);
 		t=timeTest2(v, n, 1);
-		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/(pow(n, 1.3)));
-		//1.11
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/CAleatoria(n), t/(pow(n, 1.3)));
 	}printf("\n");
 
 	printf("|ascendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
 	for(n=500; n<=N; n=n*2){
 		printf("|%6d\t|",n);
 		t=timeTest2(v, n, 2);
-		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/pow(n, 1.3));
-		//1.14
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/CAscendente(n), t/pow(n, 1.3));
 	}printf("\n");
 
 	printf("|descendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
 	for(n=500; n<=N; n=n*2){
 		printf("|%6d\t|",n);
 		t=timeTest2(v, n, 3);
-		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/pow(n, 1.3));			//1.11
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/CDescendente(n), t/pow(n, 1.3));
 	}printf("\n");
 	return 0;
 }
@@ -199,6 +200,83 @@ double timeTest(int v[], int n, int tipo){
 		printf("(*)");
 	}else printf("   ");
 	return t;
+}
+
+/*
+umbral 1:
+aleatorio 1.10920
+ascendente 1.08706
+descendente 1.08562
+
+umbral 10:
+aleatorio 1.12212
+ascendente 1.12423
+descendente 1.10663
+
+umbral 100:
+aleatorio 1.11066
+ascendente 1.21391
+descendente 1.13627
+*/
+
+double CAleatoria(int n){
+	double potencia;
+	switch (umbral)
+	{
+	case 1:
+		potencia=1.10920;
+		break;
+	case 10:
+		potencia=1.12212;
+		break;
+	case 100:
+		potencia=1.11066;
+		break;
+	default:
+		potencia=1;
+		break;
+	}
+	return pow(n, potencia);
+}
+
+double CAscendente(int n){
+	double potencia;
+	switch (umbral)
+	{
+	case 1:
+		potencia=1.08706;
+		break;
+	case 10:
+		potencia=1.12423;
+		break;
+	case 100:
+		potencia=1.21391;
+		break;
+	default:
+		potencia=1;
+		break;
+	}
+	return pow(n, potencia);
+}
+
+double CDescendente(int n){
+	double potencia;
+	switch (umbral)
+	{
+	case 1:
+		potencia=1.08562;
+		break;
+	case 10:
+		potencia=1.10663;
+		break;
+	case 100:
+		potencia=1.13627;
+		break;
+	default:
+		potencia=1;
+		break;
+	}
+	return pow(n, potencia);
 }
 
 void intercambio(int v[], int a, int b){
