@@ -21,19 +21,19 @@ double microsegundos();
 void setvect(int v[], int n, int tipo);
 double timeTest(int v[], int n, int tipo);
 void intercambio(int v[], int a, int b);
-void rapida_aux(int v[], int izq, int der, int umbral);
-void ord_rapida(int v[], int n, int umbral);
-double timeTest2(int v[], int n, int tipo, int umbral);
+void rapida_aux(int v[], int izq, int der);
+void ord_rapida(int v[], int n);
+double timeTest2(int v[], int n, int tipo);
 
 #define N 32000
 #define T 500
 #define K 1000
+#define umbral 1
 
 int main(){
 	int v[N];
 	int n;
 	double t;
-	int umbral;
 	inicializar_semilla();
 	
 	
@@ -61,33 +61,29 @@ int main(){
 	}printf("\n");
 
 	//tiempos de ordenación rápida con umbrales 1, 10 y 100
-	for(umbral=1; umbral<=100; umbral=umbral*10){
-		printf("\nOrdenación rapida umbral: %d\n", umbral);
-		// 
-		printf("|aleatorio:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
-		for(n=500; n<=N; n=n*2){
-			printf("|%6d\t|",n);
-			t=timeTest2(v, n, 1, umbral);
-			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/(pow(n, 1.3)));
-			//1.11
-		}printf("\n");
+	printf("\nOrdenación rapida umbral: %d\n", umbral); 
+	printf("|aleatorio:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
+	for(n=500; n<=N; n=n*2){
+		printf("|%6d\t|",n);
+		t=timeTest2(v, n, 1);
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/(pow(n, 1.3)));
+		//1.11
+	}printf("\n");
 
-		printf("|ascendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
-		for(n=500; n<=N; n=n*2){
-			printf("|%6d\t|",n);
-			t=timeTest2(v, n, 2, umbral);
-			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/pow(n, 1.3));
-			//1.14
-		}printf("\n");
+	printf("|ascendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
+	for(n=500; n<=N; n=n*2){
+		printf("|%6d\t|",n);
+		t=timeTest2(v, n, 2);
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/pow(n, 1.3));
+		//1.14
+	}printf("\n");
 
-		printf("|descendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
-		for(n=500; n<=N; n=n*2){
-			printf("|%6d\t|",n);
-			t=timeTest2(v, n, 3, umbral);
-			printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/pow(n, 1.3));
-			//1.11
-		}printf("\n");
-	}
+	printf("|descendente:\n|n:\t|t(n)\t\t\t|subestimada\t|ajustada\t|sobrestimada\n");
+	for(n=500; n<=N; n=n*2){
+		printf("|%6d\t|",n);
+		t=timeTest2(v, n, 3);
+		printf("%14.5f\t| %1.8f\t| %1.8f\t| %1.8f\n", t, t/pow(n, 1), t/(n*log(n)), t/pow(n, 1.3));			//1.11
+	}printf("\n");
 	return 0;
 }
 
@@ -214,7 +210,7 @@ void intercambio(int v[], int a, int b){
 
 
 //ordenacion rapida
-void rapida_aux(int v[], int izq, int der, int umbral){
+void rapida_aux(int v[], int izq, int der){
 	int x, pivote, i, j;
 
 	if(izq+umbral<=der){
@@ -242,26 +238,26 @@ void rapida_aux(int v[], int izq, int der, int umbral){
 		
 		intercambio(v, izq, j);
 
-		rapida_aux(v, izq, j-1, umbral);
-		rapida_aux(v, j+1, der, umbral);
+		rapida_aux(v, izq, j-1);
+		rapida_aux(v, j+1, der);
 	}
 }
 
-void ord_rapida(int v[], int n, int umbral){
-	rapida_aux(v, 0, n-1, umbral);
+void ord_rapida(int v[], int n){
+	rapida_aux(v, 0, n-1);
 	if(umbral>1) ord_ins(v,n);
 }
 
 
 
-double timeTest2(int v[], int n, int tipo, int umbral){
+double timeTest2(int v[], int n, int tipo){
 	double t1=0, t2=0, t=0;
 	int i=0;
 
 	setvect(v, n, tipo);
 
 	t1=microsegundos();
-	ord_rapida(v, n, umbral);
+	ord_rapida(v, n);
 	t2=microsegundos();
 	
 	t=(t2-t1);
@@ -269,7 +265,7 @@ double timeTest2(int v[], int n, int tipo, int umbral){
 		t1 = microsegundos();
         for(i=0;  i<K; i++){
 			setvect(v, n, tipo);
-			ord_rapida(v, n, umbral);
+			ord_rapida(v, n);
 		}
 		t2 = microsegundos();
 		t=(t2-t1);
