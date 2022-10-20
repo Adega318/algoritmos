@@ -7,14 +7,20 @@ Kernel: Linux lenovo 5.19.9-201.fsync.fc36.x86_64
 
 
 >>Introducción
-En la práctica se hace uso de dos algoritmos para la ordenación de vectores en tres estados, ascendente, descendente y aleatorios. El primer algoritmo utilizado es ordenación por inserción y el segundo es ordenación rápida con un umbral que indica el tamaño hasta el que se reducirá las divisiones del vector original antes de ejecutar el primer algoritmo para realizar la ordenación de esas divisiones.
+Esta práctica consiste en la medición de tiempos de dos algoritos de ordenación en diferentes casos iniciales y el cálculo de las cotas
+ con el coeficiente respecto al tiempo.
+Los diferentes casos iniciales del vector a ordenar son ascendente, descendente y aleatorio. 
+El primer algoritmo utilizado es ordenación por inserción y el segundo es ordenación rápida con un umbral que indica 
+ el tamaño hasta el que se reducirá las divisiones del vector original antes de ejecutar el primer 
+ algoritmo para realizar la ordenación de esas divisiones.
 
 
 >>Notas
-Se probarán los algoritmos con 7 tamaños de vector, 500, 1000, 2000, 4000, 8000, 16000 y 32000.
-En las pruebas del algoritmo de ordenación rápida se emplearán tres umbrales, 1, 10 y 100.
+Se probarán los algoritmos con 7 tamaños de vector: 500, 1000, 2000, 4000, 8000, 16000 y 32000.
+En las pruebas del algoritmo de ordenación rápida se emplearán tres umbrales: 1, 10 y 100.
 Las mediciones se hacen en microsegundos.
-Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se calculara la media de 1000 ejecuciones, indicado por “(*)” en las tablas.
+Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se calculará la media de 1000 ejecuciones, indicado por 
+ “(*)” en las tablas.
 
 
 >>Ordenación por inserción
@@ -222,10 +228,18 @@ Con respecto a la ordenación rápida observamos complejidades de n*log(n).
 
 >>Conclusiones
 
-Observando los tiempos de ejecución en función del vector proporcionado, podemos observar que para el de inserción los tiempos de ordenación en función del tiempo son, ascendente, aleatorio y descendente, siendo el aleatorio el más rápido con una amplia diferencia. Por otro lado, el algoritmo de ordenación rápida tiene como más rápido el descendente, con una diferencia mínima, el ascendente y por último, como el más lento, el aleatorio.
+Observando los tiempos de ejecución en función del vector proporcionado, podemos observar que para el de inserción los tiempos de ordenación en
+ función del tiempo son, ascendente, aleatorio y descendente, siendo el aleatorio el más rápido con una amplia diferencia. Por otro lado, el
+ algoritmo de ordenación rápida tiene como más rápido el descendente, con una diferencia mínima, el ascendente y por último, como el más lento, el
+ aleatorio.
 
-Comparando los tiempos de ejecución de ambos algoritmos, podemos concluir que el de ordenación rápida es más eficiente que el de ordenación por inserción, a excepción del caso de la ordenación de un vector ya ordenado donde el de inserción reporta menores tiempos.
+Comparando los tiempos de ejecución de ambos algoritmos, podemos concluir que el de ordenación rápida es más eficiente que el de ordenación por
+ inserción, a excepción del caso de la ordenación de un vector ya ordenado donde el de inserción reporta menores tiempos.
 
-El algoritmo de ordenación rápida podemos obtener el mejor rendimiento para el vector aleatorio con un umbral 10 y para un vector ascendente y descendente con un umbral 100. Lo que nos lleva a la conclusión que para vectores descendentes y ascendentes es ventajoso aprovechar la ordenación por inserción en gran medida, cuando para un vector aleatorio el uso de un umbral de 100 reporta tiempos similares al uso de un umbral de 1. Lo que nos indica que en vectores aleatorios la inserción se debe mantener en valores bajos, siendo el umbral 10 el que retorna mejores valores en las pruebas.
+El algoritmo de ordenación rápida podemos obtener el mejor rendimiento para el vector aleatorio con un umbral 10 y para un vector ascendente y
+ descendente con un umbral 100. Lo que nos lleva a la conclusión que para vectores descendentes y ascendentes es ventajoso aprovechar la ordenación
+ por inserción en gran medida, cuando para un vector aleatorio el uso de un umbral de 100 reporta tiempos similares al uso de un umbral de 1. Lo 
+ que nos indica que en vectores aleatorios la inserción se debe mantener en valores bajos, siendo el umbral 10 el que retorna mejores valores en 
+ las pruebas.
 
 
