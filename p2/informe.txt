@@ -247,9 +247,9 @@ Fijándonos en los efectos del umbral sobre los tiempos, vemos que para mayores 
 ascendente y descendente mejoran cuando, por otra parte, el caso aleatorio obtiene su mejor tiempo con umbral
 10, perdiendo eficiencia con umbral 1 y 100.
 Con respecto a las cotas del algoritmo podemos diferenciarlas significativamente por umbral y caso inicial. Si
-nos fijamos en la cota en función del umbral podemos ver que los casos iniciales Ascendente y Descendente tienen
+nos fijamos en la cota en función del umbral podemos ver que los casos iniciales ascendente y descendente tienen
 gran variación en función del umbral cuando Aleatorio es estable con una cota de n^1.11, cabe mencionar el caso
 del umbral 10 donde la cota tiende a n^1.12 para todos los casos iniciales. Sí, nos fijamos, por lo contrario,
-en los casos iniciales vemos que las mayores cotas las obtiene Ascendete seguidos de Aleatorio y descendente. En
+en los casos iniciales vemos que las mayores cotas las obtiene Ascendete seguidos de aleatorio y descendente. En
 le caso de dar una cota ajustada única se debería de dar una en trono a los n^1.12 siendo un valor medio que da
 una cota adecuada más adecuada, lo que diferencia sustancialmente de la nlog(n) teórica.
