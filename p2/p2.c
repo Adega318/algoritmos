@@ -202,25 +202,9 @@ double timeTest(int v[], int n, int tipo){
 	return t;
 }
 
-/*
-umbral 1:
-aleatorio 1.10920
-ascendente 1.08706
-descendente 1.08562
-
-umbral 10:
-aleatorio 1.12212
-ascendente 1.12423
-descendente 1.10663
-
-umbral 100:
-aleatorio 1.11066
-ascendente 1.21391
-descendente 1.13627
-*/
-
 double CAleatoria(int n){
 	double potencia;
+
 	switch (umbral)
 	{
 	case 1:
@@ -241,6 +225,7 @@ double CAleatoria(int n){
 
 double CAscendente(int n){
 	double potencia;
+
 	switch (umbral)
 	{
 	case 1:
@@ -261,6 +246,7 @@ double CAscendente(int n){
 
 double CDescendente(int n){
 	double potencia;
+
 	switch (umbral)
 	{
 	case 1:
@@ -281,6 +267,7 @@ double CDescendente(int n){
 
 void intercambio(int v[], int a, int b){
 	int aux;
+	
 	aux=v[a];
 	v[a]=v[b];
 	v[b]=aux;
