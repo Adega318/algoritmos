@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
+#include <math.h>
 
 
 struct nodo{
@@ -107,16 +108,6 @@ posicion buscar(int buscado, arbol A){
 	return p;
 }
 
-/*arbol eliminararbol(arbol *A){
-	if(esarbolvacio(*A)==0){
-		eliminararbol(&(*A)->izq);
-		eliminararbol(&(*A)->der);
-		free(*A);
-		*A=NULL;
-	}
-	return *A;
-}*/
-
 arbol eliminararbol(arbol A){
 	if(esarbolvacio(A)==0){
 		eliminararbol(A->izq);
@@ -126,6 +117,8 @@ arbol eliminararbol(arbol A){
 	}
 	return A;
 }
+
+
 
 posicion hijoderecho(arbol A){
 	return A->der;
@@ -144,11 +137,29 @@ int numerorepeticiones(posicion P){
 }
 
 
-
-
-void inicializar_semilla() {
-	srand(time(NULL));
+int altura(arbol A){
+    if(esarbolvacio(A)==1){
+        return 0;
+    }else return 1 + fmax(altura(A->izq),altura(A->der));
 }
+
+void visualizar(arbol A){
+    if(esarbolvacio(A)==0){
+		if(esarbolvacio(A->izq)==0){
+			printf("(");
+			visualizar(A->izq);
+			printf(")");
+		}
+		printf("%d", A->elem);
+		if(esarbolvacio(A->der)==0){
+			printf("(");
+			visualizar(A->der);
+			printf(")");
+		}
+	}else printf("Vacio");
+}
+
+
 
 double microsegundos(){
     struct timeval t;
@@ -157,12 +168,17 @@ double microsegundos(){
     return (t.tv_usec + t.tv_sec * 1000000.0);
 }
 
+void inicializar_semilla() {
+	srand(time(NULL));
+}
+
 void aleatorio(int v [], int n) {
 	int i, m=2*n+1;
 
 	for (i=0; i < n; i++)
 	v[i] = (rand() % m) - n;
 }
+
 
 
 double tiempoInsercion(int v[], int n){
