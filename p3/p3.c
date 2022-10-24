@@ -107,6 +107,26 @@ posicion buscar(int buscado, arbol A){
 	return p;
 }
 
+/*arbol eliminararbol(arbol *A){
+	if(esarbolvacio(*A)==0){
+		eliminararbol(&(*A)->izq);
+		eliminararbol(&(*A)->der);
+		free(*A);
+		*A=NULL;
+	}
+	return *A;
+}*/
+
+arbol eliminararbol(arbol A){
+	if(esarbolvacio(A)==0){
+		eliminararbol(A->izq);
+		eliminararbol(A->der);
+		free(A);
+		A=NULL;
+	}
+	return A;
+}
+
 posicion hijoderecho(arbol A){
 	return A->der;
 }
@@ -153,12 +173,12 @@ double tiempoInsercion(int v[], int n){
 
 	aleatorio(v, n);
 	t1=microsegundos();
-	for(i=0; i<=n; i++){
-		insertar(v[i], A);
+	for(i=0; i<n; i++){
+		A=insertar(v[i], A);
 	}
 	t2=microsegundos();
 	t=t2-t1;
-	//eliminararbol(A);
+	A=eliminararbol(A);
 	return t;
 }
 
@@ -167,14 +187,18 @@ double tiempoBusqueda(int v[], int n){
 	int i=0;
 	arbol A=creararbol();
 
+	aleatorio(v, n);
+	for(i=0; i<n; i++){
+		A=insertar(v[i], A);
+	}
 
 	aleatorio(v, n);
 	t1=microsegundos();
-	for(i=0; i<=n; i++){
+	for(i=0; i<n; i++){
 		buscar(v[i], A);
 	}
 	t2=microsegundos();
 	t=t2-t1;
-	//eliminararbol(A);
+	A=eliminararbol(A);
 	return t;
 }
