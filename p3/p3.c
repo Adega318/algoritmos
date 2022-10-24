@@ -48,15 +48,17 @@ int main(){
 	inicializar_semilla();
 
 	printf("Insercion:\n");
+	printf("|n:      |t(n):   |t(n)/f(n):\t|t(n)/g(n):\t|t(n)/h(n):\n");
 	for(n=8000; n<=N; n*=2){
 		t=tiempoInsercion(v, n);
-		printf("n: %6d\ttiempo: %6.0f\n", n, t);
+		printf("| %6d | %6.0f\n", n, t);
 	}printf("\n");
 
 	printf("Busqueda:\n");
+	printf("|n:      |t(n):   |t(n)/f(n):\t|t(n)/g(n):\t|t(n)/h(n):\n");
 	for(n=8000; n<=N; n*=2){
 		t=tiempoBusqueda(v, n);
-		printf("n: %6d\ttiempo: %6.0f\n", n, t);
+		printf("| %6d | %6.0f\n", n, t);
 	}
 
 	return 0;
