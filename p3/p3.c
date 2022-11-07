@@ -39,59 +39,56 @@ void aleatorio(int v [], int n);
 double tiempoInsercion(int v[], int n, arbol *A);
 double tiempoBusqueda(int v[], int n, arbol *A);
 
-#define N 256000
+#define N 10
 #define T 500
-#define K 1000
+#define K 100
+#define S 1
 
 
 int main(){
-    int i=0;
-    int v[N];
-    double mem[7][2];
-    int n;
-    double t;
+    int i=0, n, v[N];
+    double mem[20][2], t;
     arbol A=creararbol();
     inicializar_semilla();
 
     i=0;
-    printf("\n|n       |t_ins(n)|t_bus(n)\n");
-
-    //calentamos el procesador
-    tiempoInsercion(v, 256000, &A);
-    tiempoBusqueda(v, 256000, &A);
-    A=eliminararbol(A);
-
-    for(n=8000; n<=N; n*=2){
-        printf("| %6d ", n);
+    for(n=S; n<=N; n*=2){
         mem[i][0]=tiempoInsercion(v, n, &A);
-        printf("| %6.0f ", mem[i][0]);
         mem[i][1]=tiempoBusqueda(v, n, &A);
-        printf("| %6.0f\n", mem[i][1]);
         i++;
         A=eliminararbol(A);
-    }printf("\n\n");
+    }
 
-    
+    printf("\n|n       |t_ins(n)   |t_bus(n)\n");
+    i=0;
+    for(n=S; n<=N; n*=2){
+        printf("| %6d |", n);
+        if(mem[i][0]==0) printf(" *"); else printf("  ");
+        printf(" %6.0f |", mem[i][0]);
+        if(mem[i][1]==0) printf(" *"); else printf("  ");
+        printf(" %6.0f\n", mem[i][1]);
+        i++;
+    }
+
     printf("Insercion de n elementos:\n");
     printf("|n       |t(n)       |t(n)/n^1.07 |t(n)/n^1.17 |t(n)/n^1.27\n");
     i=0;
-    for(n=8000; n<=N; n*=2){
+    for(n=S; n<=N; n*=2){
         t=mem[i][0];
         printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
-        n, t, t/pow(n, 1.17), t/pow(n, 1.27), t/pow(n, 1.37));
+        n, t, t/pow(n, 1.07), t/pow(n, 1.17), t/pow(n, 1.27));
         i++;
     }printf("\n");
 
     printf("Busqueda de n elementos:\n");
     printf("|n       |t(n)       |t(n)/n^1.15 |t(n)/n^1.255|t(n)/n^1.36\n");
     i=0;
-    for(n=8000; n<=N; n*=2){
+    for(n=S; n<=N; n*=2){
         t=mem[i][1];
         printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
-        n, t, t/pow(n, 1.17), t/pow(n, 1.27), t/pow(n, 1.37));
+        n, t, t/pow(n, 1.06), t/pow(n, 1.16), t/pow(n, 1.26));
         i++;
-    }
-    printf("\n");
+    }printf("\n");
 
     return 0;
 }
@@ -233,6 +230,10 @@ double tiempoInsercion(int v[], int n, arbol *A){
     }
     t2=microsegundos();
     t=t2-t1;
+
+    if(t<T){
+        t=0;
+    }
     return t;
 }
 
@@ -247,5 +248,9 @@ double tiempoBusqueda(int v[], int n, arbol *A){
     }
     t2=microsegundos();
     t=t2-t1;
+
+    if(t<T){
+        t=0;
+    }
     return t;
 }

@@ -7,9 +7,9 @@
 
 
 struct nodo{
-	int elem;
-	int num_repeticiones;
-	struct nodo *izq, *der;
+    int elem;
+    int num_repeticiones;
+    struct nodo *izq, *der;
 };
 
 typedef struct nodo *posicion;
@@ -41,46 +41,48 @@ double tiempoBusqueda(int v[], int n, arbol *A);
 
 #define N 256000
 #define T 500
-#define K 1000
+#define K 100
+#define S 500
 
 
 int main(){
-	double power=1.23;
-	int i=0;
-	int v[N];
-	double mem[6];
-	int n;
-	double t;
-	arbol A=creararbol();
-	inicializar_semilla();
+    int i=0, n, v[N];
+    double mem[20][2], t, power=1.1;
+    arbol A=creararbol();
+    inicializar_semilla();
 
-	//insercion 1.17
-	//busqueda 1.26
-	tiempoInsercion(v, 256000, &A);
-    tiempoBusqueda(v, 256000, &A);
-    A=eliminararbol(A);
+    i=0;
+    for(n=S; n<=N; n*=2){
+        mem[i][0]=tiempoInsercion(v, n, &A);
+        mem[i][1]=tiempoBusqueda(v, n, &A);
+        i++;
+        A=eliminararbol(A);
+    }
 
-	for(n=8000; n<=N; n*=2){
-		t=tiempoInsercion(v, n, &A);
-		tiempoBusqueda(v, n, &A);
-		A=eliminararbol(A);
-		mem[i]=t;
-		i++;
-	}printf("\n");
+    printf("inser:\n");
+    while (power<1.3){
+        printf("%.3f: ", power);
+        i=0;
+        for(n=S; n<=N; n*=2){
+            printf(" %.6f ", mem[i][0]/pow(n, power));
+            i++;
+        }power+=0.01;
+        printf("\n\n");
+    }
 
-	while(power<1.25){
-		printf("%.3f: ", power);
-		n=8000;
-		for(i=0; i<=5; i++){
-			printf("%.5f ", mem[i]/pow(n, power));
-			n*=2;
-		}
-		printf("\n\n");
+    power=1.1;
+    printf("busqueda:\n");
+    while (power<1.3){
+        printf("%.3f: ", power);
+        i=0;
+        for(n=S; n<=N; n*=2){
+            printf(" %.6f ", mem[i][1]/pow(n, power));
+            i++;
+        }power+=0.01;
+        printf("\n\n");
+    }
 
-		power+=0.001;
-	}
-
-	return 0;
+    return 0;
 }
 
 
@@ -220,6 +222,10 @@ double tiempoInsercion(int v[], int n, arbol *A){
     }
     t2=microsegundos();
     t=t2-t1;
+
+    if(t<T){
+        t=0;
+    }
     return t;
 }
 
@@ -234,5 +240,9 @@ double tiempoBusqueda(int v[], int n, arbol *A){
     }
     t2=microsegundos();
     t=t2-t1;
+
+    if(t<T){
+        t=0;
+    }
     return t;
 }
