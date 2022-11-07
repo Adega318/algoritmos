@@ -7,14 +7,14 @@ Kernel: Linux lenovo 5.19.9-201.fsync.fc36.x86_64
 
 
 >>Introducción
-La practica consiste en la medición de tiempos y costas de la insercion y busqueda de n elmentos aleatorios en
-un arbol.
+La práctica consiste en la medición de tiempos y costas de la inserción y búsqueda de n elementos aleatorios en
+un árbol.
 
 
 >>Notas
 Se probarán los algoritmos con 6 tamaños de vector: 8000, 16000, 32000, 64000, 128000 y 256000.
 Las mediciones se hacen en microsegundos.
-Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se consideraran nulos y pondra su
+Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se consideraran nulos y pondrá su
 tiempo a 0, indicado por “*” en las tablas.
 
 
@@ -27,7 +27,7 @@ tiempo a 0, indicado por “*” en las tablas.
 | 128000 |    90514 |   102222
 | 256000 |   216918 |   276937
 
-Insercion de n elementos:
+Inserción de n elementos:
 |n       |t(n)       |t(n)/n^0.99 |t(n)/n^1.20 |t(n)/n^1.5
 |   8000 |   3298.00 | 0.45101560 | 0.06831918 | 0.00460910
 |  16000 |   8106.00 | 0.55812030 | 0.07309078 | 0.00400522
@@ -36,7 +36,7 @@ Insercion de n elementos:
 | 128000 |  90514.00 | 0.79538590 | 0.06730755 | 0.00197652
 | 256000 | 216918.00 | 0.95970559 | 0.07021140 | 0.00167469
 
-Busqueda de n elementos:
+Búsqueda de n elementos:
 |n       |t(n)       |t(n)/n^1.01 |t(n)/n^1.25 |t(n)/n^1.55
 |   8000 |   2998.00 | 0.34253956 | 0.03621915 | 0.00267327
 |  16000 |   7553.00 | 0.42850738 | 0.03810029 | 0.00230003
@@ -45,41 +45,24 @@ Busqueda de n elementos:
 | 128000 | 102222.00 | 0.71000647 | 0.03753702 | 0.00123985
 | 256000 | 276937.00 | 0.95512149 | 0.04246182 | 0.00114712
 
-En el caso de la insercion de n elementos, las cotas son las siguientes:
-	Subestimada: n^0.99, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n^1.20, su cociente con los tiempos reales tiende al valor de 0.068…
-	Sobrestimada: n^1.5, su cociente con los tiempos reales es estrictamente decreciente.
+En el caso de la inserción de n elementos, las cotas son las siguientes:
+    Subestimada: n^0.99, su cociente con los tiempos reales presenta estrictamente crecimiento.
+    Ajustada: n^1.20, su cociente con los tiempos reales tiende al valor de 0.068…
+    Sobrestimada: n^1.5, su cociente con los tiempos reales es estrictamente decreciente.
 
-En el caso de la busqueda de n elementos, las cotas son las siguientes:
-	Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-	Ajustada: n^1.25, su cociente con los tiempos reales tiende al valor de 0.038…
-	Sobrestimada: n^1.55, su cociente con los tiempos reales es estrictamente decreciente.
+En el caso de la búsqueda de n elementos, las cotas son las siguientes:
+    Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
+    Ajustada: n^1.25, su cociente con los tiempos reales tiende al valor de 0.038…
+    Sobrestimada: n^1.55, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 >>Observaciones
 
-Con respecto a la insercion de n elmentos consideramos la ajustada n^1.20
+Con respecto a la inserción de n elementos aleatorios, consideramos la ajustada n^1.20.
+Con respecto a la búsqueda de n elementos aleatorios, consideramos la ajustada n^1.25.
 
 
 >>Conclusiones
 
-Fijándonos en los tiempos de ordenación del algoritmo de inserción en función de los casos iniciales vemos que
-el ascendente el más rápido con una amplia diferencia, seguido del aleatorio y descendente respectivamente. Con
-respecto a la cota ajustada del algoritmo, en función del caso inicial obtenemos n^1.99 para aleatorio y
-descendente y obtenemos n para ascendente, si comparamos la complejidad teórica de n^2 con n^1.99 vemos una
-diferencia mínima, que se hace acentuada al ver el caso inicial ascendente de complejidad n.
+Fijándonos en ambas complejidades podemos concluir una menor complejidad para la inserción que la búsqueda.
 
-
-Con respecto a la ordenación rápida vemos la velocidad de los casos variar con el umbral, pero se mantienen las
-relaciones entre ellos con el caso más rápido, siendo el ascendente seguido de descendente y por último
-aleatorio.
-Fijándonos en los efectos del umbral sobre los tiempos, vemos que para mayores umbrales los tiempos de los casos
-ascendente y descendente mejoran cuando, por otra parte, el caso aleatorio obtiene su mejor tiempo con umbral
-10, perdiendo eficiencia con umbral 1 y 100.
-Con respecto a las cotas del algoritmo podemos diferenciarlas significativamente por umbral y caso inicial. Si
-nos fijamos en la cota en función del umbral podemos ver que los casos iniciales ascendente y descendente tienen
-gran variación en función del umbral cuando Aleatorio es estable con una cota de n^1.11, cabe mencionar el caso
-del umbral 10 donde la cota tiende a n^1.12 para todos los casos iniciales. Sí, nos fijamos, por lo contrario,
-en los casos iniciales vemos que las mayores cotas las obtiene Ascendete seguidos de aleatorio y descendente. En
-le caso de dar una cota ajustada única se debería de dar una en trono a los n^1.12 siendo un valor medio que da
-una cota adecuada más adecuada, lo que diferencia sustancialmente de la nlog(n) teórica.
