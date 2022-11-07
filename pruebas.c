@@ -1,57 +1,194 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
-#include <string.h>
 #include <math.h>
+#include <stdbool.h>
 
-#define N 32000
+
+struct nodo{
+	int elem;
+	int num_repeticiones;
+	struct nodo *izq, *der;
+};
+
+typedef struct nodo *posicion;
+typedef struct nodo *arbol;
+
+//Declaracion de funciones del arbol
+arbol creararbol();
+int esarbolvacio(arbol A);
+static struct nodo *crearnodo(int e);
+arbol insertar(int e, arbol A);
+posicion buscar(int buscado, arbol A);
+arbol eliminararbol(arbol A);
+
+posicion hijoizquierdo(arbol A);
+posicion hijoderecho(arbol A);
+int elemento(posicion P);
+int numerorepeticiones(posicion P);
+
+int altura(arbol A);
+void visualizar(arbol A);
+
+//Funciones de cotas
+double microsegundos();
+void inicializar_semilla();
+void aleatorio(int v [], int n);
+
+double tiempoInsercion(int v[], int n, arbol *A);
+double tiempoBusqueda(int v[], int n, arbol *A);
+
+#define N 256000
 #define T 500
 #define K 1000
-#define umbral 100
 
-void inicializar_semilla() {
-	srand(time(NULL));
-}
 
-void aleatorio(int v [], int n) {
-	int i, m=2*n+1;
+int main(){
+	double power=1.23;
+	int i=0;
+	int v[N];
+	double mem[6];
+	int n;
+	double t;
+	arbol A=creararbol();
+	inicializar_semilla();
 
-	for (i=0; i < n; i++)
-	v[i] = (rand() % m) - n;
-}
+	//insercion 1.17
+	//busqueda 1.26
+	tiempoInsercion(v, 256000, &A);
+    tiempoBusqueda(v, 256000, &A);
+    A=eliminararbol(A);
 
-void ascendente(int v [], int n) {
-	int i;
+	for(n=8000; n<=N; n*=2){
+		t=tiempoInsercion(v, n, &A);
+		tiempoBusqueda(v, n, &A);
+		A=eliminararbol(A);
+		mem[i]=t;
+		i++;
+	}printf("\n");
 
-	for (i=0; i < n; i++)
-	v[i] = i;
-}
-
-void descendente(int v[], int n){
-	int i, i2=0;
-
-	for(i=n-1; i>=0; i--){
-		v[i2]=i;
-		i2++;
-	}
-}
-
-void ord_ins(int v[], int n){
-	int x, j, i;
-
-	for(i=1; i<n; i++){
-		x=v[i];
-		j=i-1;
-		while(j>=0 && v[j]>x){
-			v[j+1]=v[j];
-			j=j-1;
+	while(power<1.25){
+		printf("%.3f: ", power);
+		n=8000;
+		for(i=0; i<=5; i++){
+			printf("%.5f ", mem[i]/pow(n, power));
+			n*=2;
 		}
-		v[j+1]=x;
+		printf("\n\n");
+
+		power+=0.001;
 	}
+
+	return 0;
 }
 
+
+
+arbol creararbol(){
+    arbol A=NULL;
+    return A;
+}
+
+int esarbolvacio(arbol A){
+    return A==NULL;
+}
+
+static struct nodo *crearnodo(int e){
+    struct nodo *p = malloc(sizeof(struct nodo));
+    if (p == NULL) {
+        printf("memoria agotada\n");
+        exit(EXIT_FAILURE);
+    }
+    p->elem = e;
+    p->num_repeticiones = 1;
+    p->izq = NULL;
+    p->der = NULL;
+    return p;
+}
+
+arbol insertar(int e, arbol A){
+    if (A == NULL)
+        return crearnodo(e);
+    else if (e < A->elem)
+        A->izq = insertar(e, A->izq);
+    else if (e > A->elem)
+        A->der = insertar(e, A->der);
+    else
+        A->num_repeticiones++;
+    return A;
+}
+
+posicion buscar(int buscado, arbol A){
+    posicion p;
+    if(esarbolvacio(A)==0){
+        if(A->elem==buscado) p= A;
+        if(A->elem<buscado) p= buscar(buscado, A->der);
+        if(A->elem>buscado) p= buscar(buscado, A->izq);
+    }else p= NULL;
+    return p;
+}
+
+arbol eliminararbol(arbol A){
+    if(esarbolvacio(A)==0){
+        eliminararbol(A->izq);
+        eliminararbol(A->der);
+        free(A);
+        A=NULL;
+    }
+    return A;
+}
+
+posicion hijoderecho(arbol A){
+    return A->der;
+}
+
+posicion hijoizquierdo(arbol A){
+    return A->izq;
+}
+
+int elemento(posicion P){
+    return P->elem;
+}
+
+int numerorepeticiones(posicion P){
+    return P->num_repeticiones;
+}
+
+
+int altura(arbol A){
+    if(esarbolvacio(A)==1){
+        return 0;
+    }else return 1 + fmax(altura(A->izq),altura(A->der));
+}
+
+void visualizar(arbol A){
+    if(esarbolvacio(A)==0){
+        if(esarbolvacio(A->izq)==0){
+            printf("(");
+            visualizar(A->izq);
+            printf(")");
+        }
+        printf("%d", A->elem);
+        if(esarbolvacio(A->der)==0){
+            printf("(");
+            visualizar(A->der);
+            printf(")");
+        }
+    }else printf("Vacio");
+}
+
+bool comprobacionInser(int v[], int n, arbol A){
+    int i=0;
+
+    for(i=0; i<n; i++){
+        if(buscar(v[i], A)==NULL) return false;
+    }
+    return true;
+}
+
+
+//TIEMPOS
 double microsegundos(){
     struct timeval t;
 
@@ -59,130 +196,43 @@ double microsegundos(){
     return (t.tv_usec + t.tv_sec * 1000000.0);
 }
 
-void setvect(int v[], int n, int tipo){
-	switch (tipo){
-	case 1:
-		aleatorio(v, n);
-		break;
-	case 2:
-		ascendente(v, n);
-		break;
-	case 3:
-		descendente(v, n);
-		break;
-	}
+void inicializar_semilla() {
+    srand(time(NULL));
 }
 
-void intercambio(int v[], int a, int b){
-	int aux;
-	aux=v[a];
-	v[a]=v[b];
-	v[b]=aux;
-}
+void aleatorio(int v [], int n) {
+    int i, m=2*n+1;
 
-void rapida_aux(int v[], int izq, int der){
-	int x, pivote, i, j;
-
-	if(izq+umbral<=der){
-		x=rand() % (der-izq+1);
-		x=x+izq;
-
-		pivote=v[x];
-
-		intercambio(v, izq, x);
-
-		i=izq+1;
-		j=der;
-
-		while (i<=j){ 
-			while((i<=der) && (v[i]<pivote)) i++;
-			while (v[j]>pivote) j--;
-
-			if(i<=j){ //1
-				intercambio(v, i, j);
-
-				i++;
-				j--;
-			}
-		}
-		
-		intercambio(v, izq, j);
-
-		rapida_aux(v, izq, j-1);
-		rapida_aux(v, j+1, der);
-	}
-}
-
-void ord_rapida(int v[], int n){
-	rapida_aux(v, 0, n-1);
-	if(umbral>1) ord_ins(v,n);
+    for (i=0; i < n; i++)
+    v[i] = (rand() % m) - n;
 }
 
 
 
-double timeTest2(int v[], int n, int tipo){
-	double t1=0, t2=0, t=0;
-	int i=0;
+double tiempoInsercion(int v[], int n, arbol *A){
+    double t1=0, t2=0, t=0;
+    int i=0;
 
-	setvect(v, n, tipo);
-
-	t1=microsegundos();
-	ord_rapida(v, n);
-	t2=microsegundos();
-	
-	t=(t2-t1);
-	if(t<T){
-		t1 = microsegundos();
-        for(i=0;  i<K; i++){
-			setvect(v, n, tipo);
-			ord_rapida(v, n);
-		}
-		t2 = microsegundos();
-		t=(t2-t1);
-
-		t1 = microsegundos();
-        for(i=0;  i<K; i++){
-			setvect(v, n ,tipo);
-		}
-		t2 = microsegundos();
-
-		t=((t-(t2-t1))/K);
-	}
-	return t;
+    aleatorio(v, n);
+    t1=microsegundos();
+    for(i=0; i<n; i++){
+        *A=insertar(v[i], *A);
+    }
+    t2=microsegundos();
+    t=t2-t1;
+    return t;
 }
 
+double tiempoBusqueda(int v[], int n, arbol *A){
+    double t1=0, t2=0, t=0;
+    int i=0;
 
-
-int main(){
-	int v[N];
-	int n, tipo=3;
-	double t;
-	inicializar_semilla();
-
-	for(int i=0; i<=50; i++){
-		for(n=500; n<=N; n=n*2){
-			t=timeTest2(v, n, tipo);
-			printf("(%d,%d),", n, (int)t);
-		}
-	}
-	
-	printf("\n");
-	return 0;
+    aleatorio(v, n);
+    t1=microsegundos();
+    for(i=0; i<n; i++){
+        buscar(v[i], *A);
+    }
+    t2=microsegundos();
+    t=t2-t1;
+    return t;
 }
-
-/*
-umbral 1:
-aleatorio 1.10920
-ascendente 1.08706
-descendente 1.08562
-
-umbral 10:
-aleatorio 1.12212
-ascendente 1.12423
-descendente 1.10663
-
-umbral 100:
-aleatorio 1.11066
-ascendente 1.21391
-descendente 1.13627
-*/
