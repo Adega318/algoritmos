@@ -39,6 +39,8 @@ double tiempoInsercion(int v[], int n);
 double tiempoBusqueda(int v[], int n);
 
 #define N 256000
+#define T 500
+#define K 1000
 
 
 int main(){
@@ -47,19 +49,21 @@ int main(){
 	double t;
 	inicializar_semilla();
 
-	printf("Insercion:\n");
-	printf("|n:      |t(n):   |t(n)/f(n):\t|t(n)/g(n):\t|t(n)/h(n):\n");
+
+	printf("Insercion de n elementos:\n");
+	printf("|n       |t(n)       |t(n)/n^1.18 |t(n)/n^1.25 |t(n)/n^1.3\n");
 	for(n=8000; n<=N; n*=2){
 		t=tiempoInsercion(v, n);
-		printf("| %6d | %6.0f\n", n, t);
+		printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n", n, t, t/pow(n, 1.05), t/pow(n, 1.25), t/pow(n, 1.3));
 	}printf("\n");
 
-	printf("Busqueda:\n");
-	printf("|n:      |t(n):   |t(n)/f(n):\t|t(n)/g(n):\t|t(n)/h(n):\n");
+	printf("Busqueda de n elementos:\n");
+	printf("|n       |t(n)       |t(n)/n^1.22 |t(n)/n^1.27 |t(n)/n^1.32\n");
 	for(n=8000; n<=N; n*=2){
 		t=tiempoBusqueda(v, n);
-		printf("| %6d | %6.0f\n", n, t);
+		printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n", n, t, t/pow(n, 1.22), t/pow(n, 1.27), t/pow(n, 1.32));
 	}
+	printf("\n");
 
 	return 0;
 }
@@ -120,8 +124,6 @@ arbol eliminararbol(arbol A){
 	return A;
 }
 
-
-
 posicion hijoderecho(arbol A){
 	return A->der;
 }
@@ -162,7 +164,7 @@ void visualizar(arbol A){
 }
 
 
-
+//TIEMPOS
 double microsegundos(){
     struct timeval t;
 
