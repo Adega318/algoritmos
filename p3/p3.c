@@ -15,87 +15,82 @@ struct nodo{
 typedef struct nodo *posicion;
 typedef struct nodo *arbol;
 
-//Declaracion de funciones del arbol
-arbol creararbol();
+//ARBOL
+arbol crearArbol();
 int esarbolvacio(arbol A);
 static struct nodo *crearnodo(int e);
 arbol insertar(int e, arbol A);
 posicion buscar(int buscado, arbol A);
-arbol eliminararbol(arbol A);
-
+arbol eliminarArbol(arbol A);
 posicion hijoizquierdo(arbol A);
 posicion hijoderecho(arbol A);
 int elemento(posicion P);
-int numerorepeticiones(posicion P);
-
+int numeroRepeticiones(posicion P);
 int altura(arbol A);
 void visualizar(arbol A);
 
-//Funciones de cotas
-double microsegundos();
+//TEST
+void test();
+
+//RANDOM
 void inicializar_semilla();
 void aleatorio(int v [], int n);
 
+//TIEMPOS
+double microsegundos();
 double tiempoInsercion(int v[], int n, arbol *A);
 double tiempoBusqueda(int v[], int n, arbol *A);
 
-#define N 10
+
+#define N 256000
 #define T 500
 #define K 100
-#define S 1
+#define S 8000
 
 
 int main(){
     int i=0, n, v[N];
-    double mem[20][2], t;
-    arbol A=creararbol();
+    double mem[(int)log2(N/S)+1][2], t;
+    arbol A=crearArbol();
     inicializar_semilla();
 
-    i=0;
-    for(n=S; n<=N; n*=2){
+    for(n=S, i=0; n<=N; n*=2, i++){
         mem[i][0]=tiempoInsercion(v, n, &A);
         mem[i][1]=tiempoBusqueda(v, n, &A);
-        i++;
-        A=eliminararbol(A);
+        A=eliminarArbol(A);
     }
 
-    printf("\n|n       |t_ins(n)   |t_bus(n)\n");
-    i=0;
-    for(n=S; n<=N; n*=2){
+    printf("\n|n       |t_ins(n)  |t_bus(n)\n");
+    for(n=S, i=0; n<=N; n*=2, i++){
         printf("| %6d |", n);
         if(mem[i][0]==0) printf(" *"); else printf("  ");
         printf(" %6.0f |", mem[i][0]);
         if(mem[i][1]==0) printf(" *"); else printf("  ");
         printf(" %6.0f\n", mem[i][1]);
-        i++;
-    }
+    }printf("\n");
 
     printf("Insercion de n elementos:\n");
-    printf("|n       |t(n)       |t(n)/n^1.07 |t(n)/n^1.17 |t(n)/n^1.27\n");
-    i=0;
-    for(n=S; n<=N; n*=2){
+    printf("|n       |t(n)       |t(n)/n^0.99 |t(n)/n^1.20 |t(n)/n^1.5\n");
+    for(n=S, i=0; n<=N; n*=2, i++){
         t=mem[i][0];
         printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
-        n, t, t/pow(n, 1.07), t/pow(n, 1.17), t/pow(n, 1.27));
-        i++;
+        n, t, t/pow(n, 0.99), t/pow(n, 1.2), t/pow(n, 1.5));
     }printf("\n");
 
     printf("Busqueda de n elementos:\n");
-    printf("|n       |t(n)       |t(n)/n^1.15 |t(n)/n^1.255|t(n)/n^1.36\n");
-    i=0;
-    for(n=S; n<=N; n*=2){
+    printf("|n       |t(n)       |t(n)/n^1.01 |t(n)/n^1.25 |t(n)/n^1.55\n");
+    for(n=S, i=0; n<=N; n*=2, i++){
         t=mem[i][1];
         printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
-        n, t, t/pow(n, 1.06), t/pow(n, 1.16), t/pow(n, 1.26));
-        i++;
+        n, t, t/pow(n, 1.01), t/pow(n, 1.26), t/pow(n, 1.55));
     }printf("\n");
 
     return 0;
 }
 
 
-
-arbol creararbol(){
+//ARBOL
+arbol crearArbol(){
     arbol A=NULL;
     return A;
 }
@@ -139,10 +134,10 @@ posicion buscar(int buscado, arbol A){
     return p;
 }
 
-arbol eliminararbol(arbol A){
+arbol eliminarArbol(arbol A){
     if(esarbolvacio(A)==0){
-        eliminararbol(A->izq);
-        eliminararbol(A->der);
+        eliminarArbol(A->izq);
+        eliminarArbol(A->der);
         free(A);
         A=NULL;
     }
@@ -161,51 +156,72 @@ int elemento(posicion P){
     return P->elem;
 }
 
-int numerorepeticiones(posicion P){
+int numeroRepeticiones(posicion P){
     return P->num_repeticiones;
 }
 
 
 int altura(arbol A){
     if(esarbolvacio(A)==1){
-        return 0;
+        return -1;
     }else return 1 + fmax(altura(A->izq),altura(A->der));
 }
 
 void visualizar(arbol A){
+    printf("(");
     if(esarbolvacio(A)==0){
         if(esarbolvacio(A->izq)==0){
-            printf("(");
             visualizar(A->izq);
-            printf(")");
         }
         printf("%d", A->elem);
         if(esarbolvacio(A->der)==0){
-            printf("(");
             visualizar(A->der);
-            printf(")");
         }
-    }else printf("Vacio");
+    }printf(")");
 }
 
-bool comprobacionInser(int v[], int n, arbol A){
-    int i=0;
 
-    for(i=0; i<n; i++){
-        if(buscar(v[i], A)==NULL) return false;
+//TEST
+void test() {
+    int i;
+    arbol A = crearArbol();
+    printf("Arbol vacio: ");
+    visualizar(A);
+
+    printf("\n");
+    printf("Altura del arbol: %d\n", altura(A));
+
+    printf("Insertamos por este orden 3-1-2-5-4-5 al arbol vacio\n");
+    A = insertar(3, A);
+    A = insertar(1, A);
+    A = insertar(2, A);
+    A = insertar(5, A);
+    A = insertar(4, A);
+    A = insertar(5, A);
+
+    printf("Arbol: ");
+    visualizar(A);
+    printf("\nAltura del arbol: %d\n", altura(A));
+
+    for(i = 1; i <= 6; i++) {
+        printf("Busco %d y ", i);
+        if(buscar(i, A) != NULL) {
+            printf("encuentro %d repetido: %d veces\n", i,
+                   numeroRepeticiones(buscar(i, A)));
+        } else {
+            printf("no encuentro nada\n");
+        }
     }
-    return true;
+
+    printf("Elimino el arbol\n");
+    A = eliminarArbol(A);
+    printf("Arbol vacío: ");
+    visualizar(A);
+    printf("\nAltura del arbol: %d\n", altura(A));
 }
 
 
-//TIEMPOS
-double microsegundos(){
-    struct timeval t;
-
-    if (gettimeofday(&t, NULL)<0) return 0.0;
-    return (t.tv_usec + t.tv_sec * 1000000.0);
-}
-
+//ALEATORIO
 void inicializar_semilla() {
     srand(time(NULL));
 }
@@ -218,10 +234,17 @@ void aleatorio(int v [], int n) {
 }
 
 
+//TIEMPOS
+double microsegundos(){
+    struct timeval t;
+
+    if (gettimeofday(&t, NULL)<0) return 0.0;
+    return (t.tv_usec + t.tv_sec * 1000000.0);
+}
 
 double tiempoInsercion(int v[], int n, arbol *A){
-    double t1=0, t2=0, t=0;
-    int i=0;
+    double t1, t2, t;
+    int i;
 
     aleatorio(v, n);
     t1=microsegundos();
@@ -238,8 +261,8 @@ double tiempoInsercion(int v[], int n, arbol *A){
 }
 
 double tiempoBusqueda(int v[], int n, arbol *A){
-    double t1=0, t2=0, t=0;
-    int i=0;
+    double t1, t2, t;
+    int i;
 
     aleatorio(v, n);
     t1=microsegundos();
