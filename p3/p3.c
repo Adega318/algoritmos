@@ -44,8 +44,7 @@ double tiempoBusqueda(int v[], int n, arbol *A);
 
 #define N 256000
 #define T 500
-#define K 100
-#define S 8000
+#define S 500
 
 
 int main(){
@@ -63,9 +62,9 @@ int main(){
     printf("\n|n       |t_ins(n)  |t_bus(n)\n");
     for(n=S, i=0; n<=N; n*=2, i++){
         printf("| %6d |", n);
-        if(mem[i][0]==0) printf(" *"); else printf("  ");
+        if(mem[i][0]==-1) printf(" *"); else printf("  ");
         printf(" %6.0f |", mem[i][0]);
-        if(mem[i][1]==0) printf(" *"); else printf("  ");
+        if(mem[i][1]==-1) printf(" *"); else printf("  ");
         printf(" %6.0f\n", mem[i][1]);
     }printf("\n");
 
@@ -73,7 +72,7 @@ int main(){
     printf("|n       |t(n)       |t(n)/n^0.99 |t(n)/n^1.20 |t(n)/n^1.5\n");
     for(n=S, i=0; n<=N; n*=2, i++){
         t=mem[i][0];
-        printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
+        if(t!=-1) printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
         n, t, t/pow(n, 0.99), t/pow(n, 1.2), t/pow(n, 1.5));
     }printf("\n");
 
@@ -81,7 +80,7 @@ int main(){
     printf("|n       |t(n)       |t(n)/n^1.01 |t(n)/n^1.25 |t(n)/n^1.55\n");
     for(n=S, i=0; n<=N; n*=2, i++){
         t=mem[i][1];
-        printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
+        if(t!=-1) printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
         n, t, t/pow(n, 1.01), t/pow(n, 1.26), t/pow(n, 1.55));
     }printf("\n");
 
@@ -207,7 +206,7 @@ void test() {
         printf("Busco %d y ", i);
         if(buscar(i, A) != NULL) {
             printf("encuentro %d repetido: %d veces\n", i,
-                   numeroRepeticiones(buscar(i, A)));
+                numeroRepeticiones(buscar(i, A)));
         } else {
             printf("no encuentro nada\n");
         }
@@ -255,7 +254,7 @@ double tiempoInsercion(int v[], int n, arbol *A){
     t=t2-t1;
 
     if(t<T){
-        t=0;
+        t=-1;
     }
     return t;
 }
@@ -273,7 +272,7 @@ double tiempoBusqueda(int v[], int n, arbol *A){
     t=t2-t1;
 
     if(t<T){
-        t=0;
+        t=-1;
     }
     return t;
 }
