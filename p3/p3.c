@@ -273,7 +273,7 @@ double tiempoBusqueda(int v[], int n, arbol *A){
 
 void calentar(){
     int v[N];
-    arbol A;
+    arbol A=crearArbol();
     aleatorio(v, N);
     tiempoInsercion(v, N, &A);
     A=eliminarArbol(A);
