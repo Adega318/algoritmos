@@ -14,55 +14,65 @@ un árbol.
 >>Notas
 Se probarán los algoritmos con 6 tamaños de vector: 8000, 16000, 32000, 64000, 128000 y 256000.
 Las mediciones se hacen en microsegundos.
-Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se consideraran nulos y pondrá su
-tiempo a 0, indicado por “*” en las tablas.
-
+Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se consideraran tiempos no fiables y
+pondrá un indicador “*” en las tablas. Estos valores solo parecerán en la primera tabla y en caso de la
+aparición de uno de ellos en solo en inserción o búsqueda se considerará inadecuado el otro pese a superar 500
+milisegundos.
 
 >>Insercion y busqieda de n elementos:
 |n       |t_ins(n)  |t_bus(n)
-|   8000 |     3298 |     2998
-|  16000 |     8106 |     7553
-|  32000 |    22329 |    18593
-|  64000 |    39551 |    39083
-| 128000 |    90514 |   102222
-| 256000 |   216918 |   276937
+|    500 | *    107 | *    122
+|   1000 | *    257 | *    283
+|   2000 |      638 |      665
+|   4000 |     1331 |     1510
+|   8000 |     3310 |     3612
+|  16000 |     7187 |     7672
+|  32000 |    18446 |    18628
+|  64000 |    41025 |    49662
+| 128000 |   111918 |   124192
+| 256000 |   264737 |   288635
 
-Inserción de n elementos:
-|n       |t(n)       |t(n)/n^0.99 |t(n)/n^1.20 |t(n)/n^1.5
-|   8000 |   3298.00 | 0.45101560 | 0.06831918 | 0.00460910
-|  16000 |   8106.00 | 0.55812030 | 0.07309078 | 0.00400522
-|  32000 |  22329.00 | 0.77405317 | 0.08763736 | 0.00390072
-|  64000 |  39551.00 | 0.69030226 | 0.06756807 | 0.00244280
-| 128000 |  90514.00 | 0.79538590 | 0.06730755 | 0.00197652
-| 256000 | 216918.00 | 0.95970559 | 0.07021140 | 0.00167469
+Insercion de n elementos:
+|n       |t(n)       |t(n)/n      |t(n)/n^1.24 |t(n)/n^1.55
+|   2000 |    638.00 | 0.31900000 | 0.05146873 | 0.00487780
+|   4000 |   1331.00 | 0.33275000 | 0.04545940 | 0.00347524
+|   8000 |   3310.00 | 0.41375000 | 0.04786261 | 0.00295147
+|  16000 |   7187.00 | 0.44918750 | 0.04399860 | 0.00218858
+|  32000 |  18446.00 | 0.57643750 | 0.04780972 | 0.00191831
+|  64000 |  41025.00 | 0.64101562 | 0.04501792 | 0.00145703
+| 128000 | 111918.00 | 0.87435938 | 0.05199476 | 0.00135745
+| 256000 | 264737.00 | 1.03412891 | 0.05207114 | 0.00109659
 
-Búsqueda de n elementos:
-|n       |t(n)       |t(n)/n^1.01 |t(n)/n^1.25 |t(n)/n^1.55
-|   8000 |   2998.00 | 0.34253956 | 0.03621915 | 0.00267327
-|  16000 |   7553.00 | 0.42850738 | 0.03810029 | 0.00230003
-|  32000 |  18593.00 | 0.52377889 | 0.03916161 | 0.00193360
-|  64000 |  39083.00 | 0.54669628 | 0.03437171 | 0.00138806
-| 128000 | 102222.00 | 0.71000647 | 0.03753702 | 0.00123985
-| 256000 | 276937.00 | 0.95512149 | 0.04246182 | 0.00114712
+Busqueda de n elementos:
+|n       |t(n)       |t(n)/n      |t(n)/n^1.25 |t(n)/n^1.55
+|   2000 |    665.00 | 0.33250000 | 0.04972035 | 0.00508423
+|   4000 |   1510.00 | 0.37750000 | 0.04746811 | 0.00394261
+|   8000 |   3612.00 | 0.45150000 | 0.04774031 | 0.00322076
+|  16000 |   7672.00 | 0.47950000 | 0.04263425 | 0.00233627
+|  32000 |  18628.00 | 0.58212500 | 0.04352400 | 0.00193724
+|  64000 |  49662.00 | 0.77596875 | 0.04878645 | 0.00176378
+| 128000 | 124192.00 | 0.97025000 | 0.05129572 | 0.00150632
+| 256000 | 288635.00 | 1.12748047 | 0.05012438 | 0.00119558
 
 En el caso de la inserción de n elementos, las cotas son las siguientes:
-    Subestimada: n^0.99, su cociente con los tiempos reales presenta estrictamente crecimiento.
-    Ajustada: n^1.20, su cociente con los tiempos reales tiende al valor de 0.068…
-    Sobrestimada: n^1.5, su cociente con los tiempos reales es estrictamente decreciente.
+    Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
+    Ajustada: n^1.24, su cociente con los tiempos reales tiende al valor de 0.05…
+    Sobrestimada: n^1.55, su cociente con los tiempos reales es estrictamente decreciente.
 
 En el caso de la búsqueda de n elementos, las cotas son las siguientes:
     Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
-    Ajustada: n^1.25, su cociente con los tiempos reales tiende al valor de 0.038…
+    Ajustada: n^1.25, su cociente con los tiempos reales tiende al valor de 0.05…
     Sobrestimada: n^1.55, su cociente con los tiempos reales es estrictamente decreciente.
 
 
 >>Observaciones
 
-Con respecto a la inserción de n elementos aleatorios, consideramos la ajustada n^1.20.
+Con respecto a la inserción de n elementos aleatorios, consideramos la ajustada n^1.24.
 Con respecto a la búsqueda de n elementos aleatorios, consideramos la ajustada n^1.25.
 
 
 >>Conclusiones
 
 Fijándonos en ambas complejidades podemos concluir una menor complejidad para la inserción que la búsqueda.
+Lo que se puede ver en las diferencias de tiempo entre ambas y cus complejidades calculadas.
 

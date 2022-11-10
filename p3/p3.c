@@ -64,26 +64,26 @@ int main(){
     printf("\n|n       |t_ins(n)  |t_bus(n)\n");
     for(n=S, i=0; n<=N; n*=2, i++){
         printf("| %6d |", n);
-        if(mem[i][0]==-1) printf(" *"); else printf("  ");
+        if(mem[i][0]<T) printf(" *"); else printf("  ");
         printf(" %6.0f |", mem[i][0]);
-        if(mem[i][1]==-1) printf(" *"); else printf("  ");
+        if(mem[i][1]<T) printf(" *"); else printf("  ");
         printf(" %6.0f\n", mem[i][1]);
     }printf("\n");
 
     printf("Insercion de n elementos:\n");
-    printf("|n       |t(n)       |t(n)/n      |t(n)/n^1.22 |t(n)/n^1.55\n");
+    printf("|n       |t(n)       |t(n)/n      |t(n)/n^1.24 |t(n)/n^1.55\n");
     for(n=S, i=0; n<=N; n*=2, i++){
         t=mem[i][0];
-        if(t!=-1 && mem[i][1]!=-1)printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n"
-        ,n, t, t/pow(n, 1), t/pow(n, 1.22), t/pow(n, 1.55));
+        if(t>=T && mem[i][1]>=T)printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n"
+        ,n, t, t/pow(n, 1), t/pow(n, 1.24), t/pow(n, 1.55));
     }printf("\n");
 
     printf("Busqueda de n elementos:\n");
-    printf("|n       |t(n)       |t(n)/n      |t(n)/n^1.22 |t(n)/n^1.55\n");
+    printf("|n       |t(n)       |t(n)/n      |t(n)/n^1.25 |t(n)/n^1.55\n");
     for(n=S, i=0; n<=N; n*=2, i++){
         t=mem[i][1];
-        if(t!=-1 && mem[i][0]!=-1)printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n"
-        ,n, t, t/pow(n, 1), t/pow(n, 1.22), t/pow(n, 1.55));
+        if(t>=T && mem[i][0]>=T)printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n"
+        ,n, t, t/pow(n, 1), t/pow(n, 1.25), t/pow(n, 1.55));
     }printf("\n");
 
     return 0;
@@ -254,10 +254,6 @@ double tiempoInsercion(int v[], int n, arbol *A){
     }
     t2=microsegundos();
     t=t2-t1;
-
-    if(t<T){
-        t=-1;
-    }
     return t;
 }
 
@@ -272,16 +268,13 @@ double tiempoBusqueda(int v[], int n, arbol *A){
     }
     t2=microsegundos();
     t=t2-t1;
-
-    if(t<T){
-        t=-1;
-    }
     return t;
 }
 
 void calentar(){
     int v[N];
     arbol A;
+    aleatorio(v, N);
     tiempoInsercion(v, N, &A);
     A=eliminarArbol(A);
 }
