@@ -40,6 +40,7 @@ void aleatorio(int v [], int n);
 double microsegundos();
 double tiempoInsercion(int v[], int n, arbol *A);
 double tiempoBusqueda(int v[], int n, arbol *A);
+void calentar();
 
 
 #define N 256000
@@ -53,6 +54,7 @@ int main(){
     arbol A=crearArbol();
     inicializar_semilla();
 
+    calentar();
     for(n=S, i=0; n<=N; n*=2, i++){
         mem[i][0]=tiempoInsercion(v, n, &A);
         mem[i][1]=tiempoBusqueda(v, n, &A);
@@ -69,19 +71,19 @@ int main(){
     }printf("\n");
 
     printf("Insercion de n elementos:\n");
-    printf("|n       |t(n)       |t(n)/n^0.99 |t(n)/n^1.20 |t(n)/n^1.5\n");
+    printf("|n       |t(n)       |t(n)/n      |t(n)/n^1.22 |t(n)/n^1.55\n");
     for(n=S, i=0; n<=N; n*=2, i++){
         t=mem[i][0];
-        if(t!=-1) printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
-        n, t, t/pow(n, 0.99), t/pow(n, 1.2), t/pow(n, 1.5));
+        if(t!=-1 && mem[i][1]!=-1)printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n"
+        ,n, t, t/pow(n, 1), t/pow(n, 1.22), t/pow(n, 1.55));
     }printf("\n");
 
     printf("Busqueda de n elementos:\n");
-    printf("|n       |t(n)       |t(n)/n^1.01 |t(n)/n^1.25 |t(n)/n^1.55\n");
+    printf("|n       |t(n)       |t(n)/n      |t(n)/n^1.22 |t(n)/n^1.55\n");
     for(n=S, i=0; n<=N; n*=2, i++){
         t=mem[i][1];
-        if(t!=-1) printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n",
-        n, t, t/pow(n, 1.01), t/pow(n, 1.26), t/pow(n, 1.55));
+        if(t!=-1 && mem[i][0]!=-1)printf("| %6d | %9.2f | %.8f | %.8f | %.8f\n"
+        ,n, t, t/pow(n, 1), t/pow(n, 1.22), t/pow(n, 1.55));
     }printf("\n");
 
     return 0;
@@ -275,4 +277,11 @@ double tiempoBusqueda(int v[], int n, arbol *A){
         t=-1;
     }
     return t;
+}
+
+void calentar(){
+    int v[N];
+    arbol A;
+    tiempoInsercion(v, N, &A);
+    A=eliminarArbol(A);
 }
