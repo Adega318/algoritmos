@@ -7,8 +7,8 @@ Kernel: Linux lenovo 5.19.9-201.fsync.fc36.x86_64
 
 
 >>Introducción
-La práctica consiste en la medición de tiempos y costas de la inserción y búsqueda de n elementos aleatorios en
-un árbol.
+La práctica consiste en la medición y comparación de tiempos y costas de la inserción y búsqueda de n elementos
+aleatorios en un árbol, vacío en caso de la inserción y con n elementos aleatorios en el de la búsqueda.
 
 
 >>Notas
@@ -77,3 +77,8 @@ Con respecto a la búsqueda de n elementos aleatorios, consideramos la ajustada 
 Fijándonos en ambas complejidades podemos concluir una menor complejidad para la inserción que la búsqueda,
 lo que se puede apreciar en sus complejidades calculadas.
 
+La inserción de n elementos aleatorios tiene asociado un gasto de tiempo en la reserva de memoria y creación de
+nodos, lo cual es relativamente costoso.
+La búsqueda de n elementos aleatorios en un árbol generado con n elementos aleatorios termina siendo más lenta a
+causa de los fallos de búsqueda (cuando no se encuentra el elemento se debe llegar al final de la rama).
+Por lo tanto, los fallos de búsqueda tienen un mayor costo que la reserva de memoria y creación de nodos.
