@@ -12,7 +12,8 @@ un árbol.
 
 
 >>Notas
-Se probarán los algoritmos con 6 tamaños de vector: 8000, 16000, 32000, 64000, 128000 y 256000.
+Se probarán los algoritmos con 10 tamaños de vector: 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000
+y 256000.
 Las mediciones se hacen en microsegundos.
 Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se consideraran tiempos no fiables y
 pondrá un indicador “*” en las tablas. Estos valores solo parecerán en la primera tabla y en caso de la
@@ -73,6 +74,6 @@ Con respecto a la búsqueda de n elementos aleatorios, consideramos la ajustada 
 
 >>Conclusiones
 
-Fijándonos en ambas complejidades podemos concluir una menor complejidad para la inserción que la búsqueda.
-Lo que se puede ver en las diferencias de tiempo entre ambas y cus complejidades calculadas.
+Fijándonos en ambas complejidades podemos concluir una menor complejidad para la inserción que la búsqueda,
+lo que se puede apreciar en sus complejidades calculadas.
 
