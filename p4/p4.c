@@ -1,11 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
 #include <sys/time.h>
 
 //GENERALES
+void inicializar_semilla();
+void aleatorio(int [], int);
 void ascendente(int [], int);
+void descendente(int [], int);
+void setVedtor(int [], int, int);
 
 //TIEMPOS
+#define N 8000
+#define S 500
 #define T 500
 #define K 1000
 double microsegundos();
@@ -22,36 +30,69 @@ void hundir(monticulo* , int);
 int eliminar_mayor(monticulo *);
 
 //ORDENACION
-void ord_monticulo(int v[], int n);
+void ord_monticulo(int [], int);
 
 //TESTS_TIEMPOS
-double testTiempo_monticulo(int v[], int n, monticulo M);
+double testTiempo_monticulo(int [], int, monticulo);
+double testTiempos_ord_monticulos(int [], int , monticulo);
+
+//TESTES
+bool testOrd_monticulos(int [], int);
+
 
 int main(){
-    int v[5];
-    ascendente(v, 5);
-    for(int j=0; j<5; j++){
-        v[j]=j;
-    }
-    monticulo M;
-    iniciar_monticulo(&M);
+    int v[N];
+    inicializar_semilla();
+    testOrd_monticulos(v, S);
 
-    crear_monticulo(v, 4, &M);
-
-    for(int i=0; i<=M.ultimo; i++){printf("%d", M.vector[i]);}
-    printf("\n%d", eliminar_mayor(&M));
-    printf(" %d\n", M.vector[0]);
-    
     return 0;
 }
 
 
 //GENERALES
-void ascendente(int v [], int n) {
-	int i;
+void inicializar_semilla() {
+    srand(time(NULL));
+}
 
-	for (i=0; i < n; i++)
-	v[i] = i;
+void aleatorio(int v [], int n) {
+    int i, m=2*n+1;
+
+    for (i=0; i < n; i++)
+    v[i] = (rand() % m) - n;
+}
+
+void ascendente(int v [], int n) {
+    int i;
+
+    for (i=0; i < n; i++)
+    v[i] = i;
+}
+
+void descendente(int v[], int n){
+    int i, i2=0;
+
+    for(i=n-1; i>=0; i--){
+        v[i2]=i;
+        i2++;
+    }
+}
+
+void setVedtor(int v[], int n, int s){
+    switch (s)
+    {
+    case 1:
+        aleatorio(v, n);
+        break;
+    case 2:
+        ascendente(v, n);
+        break;
+    case 3:
+        descendente(v, n);
+        break;
+    
+    default:
+        break;
+    }
 }
 
 
@@ -71,10 +112,10 @@ void iniciar_monticulo(monticulo* M){
 
 void crear_monticulo(int v[], int max, monticulo* M){
     int i;
-    for(i=0; i<=max; i++){
+    for(i=0; i<=max-1; i++){
         M->vector[i]=v[i];
     }
-    M->ultimo=max;
+    M->ultimo=max-1;
     for(i=M->ultimo/2; i>=0; i--){
         hundir(M, i);
     }
@@ -129,10 +170,10 @@ void ord_monticulo(int v[], int n){
 double testTiempo_monticulo(int v[], int n, monticulo M){
     double t1, t2, t;
     int i;
-    ascendente(v, n);
+    setVedtor(v, n, 2);
 
     t1=microsegundos();
-        crear_monticulo(v, n-1, &M);
+        crear_monticulo(v, n, &M);
     t2=microsegundos();
     t=t2-t1;
     if(t<T){
@@ -142,4 +183,46 @@ double testTiempo_monticulo(int v[], int n, monticulo M){
         t=(t2-t1)/K;
     }
     return t;
+}
+
+double testTiempos_ord_monticulos(int v[], int n, monticulo M){
+    double t1, t2, t;
+    int i;
+    setVedtor(v, n, 1);
+
+    t1=microsegundos();
+        ord_monticulo(v, n);
+    t2=microsegundos();
+    t=t2-t1;
+    if(t<T){
+        t1=microsegundos();
+        for(i=0; i<=K; i++){
+            setVedtor(v, n, 1);
+            ord_monticulo(v, n);
+        }
+        t2=microsegundos();
+        t=t2-t1;
+        t1=microsegundos();
+        for(i=0; i<=K; i++){
+            setVedtor(v, n, 1);
+        }
+        t2=microsegundos();
+        t=(t-t2+t1)/K;
+    }
+    return t;
+}
+
+
+//TESTS
+bool testOrd_monticulos(int v[], int n){
+	int i;
+	bool ret=true;
+
+    setVedtor(v, n, 1);
+    ord_monticulo(v, n);
+
+	for(i=1; i<n; i++){
+		if(v[i]<v[i-1]) ret=false;
+	}
+	return ret;
 }
