@@ -34,16 +34,34 @@ void ord_monticulo(int [], int);
 
 //TESTS_TIEMPOS
 double testTiempo_monticulo(int [], int, monticulo);
-double testTiempos_ord_monticulos(int [], int , monticulo);
+double testTiempos_ord_monticulos(int [], int);
 
 //TESTES
-bool testOrd_monticulos(int [], int);
+void testOrd_monticulos();
+void testCrear_monticulo();
 
 
 int main(){
-    int v[N];
+    int v[N], i, n;
+    double mem[2][(int)log2(N/S)+1], t;
+    monticulo M;
     inicializar_semilla();
-    testOrd_monticulos(v, S);
+    iniciar_monticulo(&M);
+
+    //TESTS
+    testOrd_monticulos();
+    testCrear_monticulo();
+
+    //TIEMPOS
+    for(n=S, i=0; n<=N; n*=2, i++){
+		mem[0][i]=testTiempo_monticulo(v, n, M);
+        mem[1][i]=testTiempos_ord_monticulos(v, n);
+	}
+
+    //MOSTRADO_POR_PANTALLA
+    for(n=S, i=0; n<=N; n*=2, i++){
+		
+	}
 
     return 0;
 }
@@ -185,7 +203,7 @@ double testTiempo_monticulo(int v[], int n, monticulo M){
     return t;
 }
 
-double testTiempos_ord_monticulos(int v[], int n, monticulo M){
+double testTiempos_ord_monticulos(int v[], int n){
     double t1, t2, t;
     int i;
     setVedtor(v, n, 1);
@@ -214,15 +232,47 @@ double testTiempos_ord_monticulos(int v[], int n, monticulo M){
 
 
 //TESTS
-bool testOrd_monticulos(int v[], int n){
-	int i;
-	bool ret=true;
-
+void testOrd_monticulos(){
+	int i, v[7], n=7;
     setVedtor(v, n, 1);
+
+    printf("Prueba ord_monticulo\nvector inicial: ");
+    for(i=1; i<n; i++){
+		printf("%d ", v[i]);
+	}
+
     ord_monticulo(v, n);
 
+    printf("\nvector ordenado: ");
 	for(i=1; i<n; i++){
-		if(v[i]<v[i-1]) ret=false;
+		printf("%d ", v[i]);
+	}printf("\n");
+}
+
+void testCrear_monticulo(){
+    int i, n=7;
+    monticulo M;
+
+    int v[n];
+    v[0]=6;
+    v[1]=17;
+    v[2]=14;
+    v[3]=4;
+    v[4]=9;
+    v[5]=5;
+    v[6]=8;
+
+    printf("Prueba crear_monticulo\nvector inicial: ");
+    for(i=1; i<n; i++){
+		printf("%d ", v[i]);
 	}
-	return ret;
+
+    crear_monticulo(v,n,&M);
+
+    printf("\nvector monticulo: ");
+    for(i=0;i<n;i++){
+        printf("%d ",M.vector[i]);
+    }printf("\n");
+    //17-9-14-4-6-5-8
+    
 }
