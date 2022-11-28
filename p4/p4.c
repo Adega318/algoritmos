@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include <math.h>
 #include <time.h>
 #include <sys/time.h>
 
@@ -12,8 +12,8 @@ void descendente(int [], int);
 void setVedtor(int [], int, int);
 
 //TIEMPOS
-#define N 8000
-#define S 500
+#define N 250000
+#define S 4000
 #define T 500
 #define K 1000
 double microsegundos();
@@ -42,8 +42,7 @@ void testCrear_monticulo();
 
 
 int main(){
-    int v[N], i, n;
-    double mem[2][(int)log2(N/S)+1], t;
+    int v[N], n;
     monticulo M;
     inicializar_semilla();
     iniciar_monticulo(&M);
@@ -51,17 +50,14 @@ int main(){
     //TESTS
     testOrd_monticulos();
     testCrear_monticulo();
-
+    
     //TIEMPOS
-    for(n=S, i=0; n<=N; n*=2, i++){
-		mem[0][i]=testTiempo_monticulo(v, n, M);
-        mem[1][i]=testTiempos_ord_monticulos(v, n);
-	}
-
-    //MOSTRADO_POR_PANTALLA
-    for(n=S, i=0; n<=N; n*=2, i++){
-		
-	}
+    for(n=S; n<=N; n*=2){
+        testTiempo_monticulo(v, n, M);
+    }
+    for(n=S; n<=N; n*=2){
+        testTiempos_ord_monticulos(v, n);
+    }
 
     return 0;
 }
@@ -178,7 +174,7 @@ void ord_monticulo(int v[], int n){
     monticulo M;
     iniciar_monticulo(&M);
     crear_monticulo(v, n, &M);
-    for(i=n; i==1; i--){
+    for(i=n-1; i>=0; i-=1){
         v[i]=eliminar_mayor(&M);
     }
 }
@@ -199,7 +195,9 @@ double testTiempo_monticulo(int v[], int n, monticulo M){
         for(i=0; i<=K; i++) crear_monticulo(v, n-1, &M);
         t2=microsegundos();
         t=(t2-t1)/K;
-    }
+        printf(" * ");
+    }else printf("   ");
+    printf("%6.2lf", t);
     return t;
 }
 
@@ -226,27 +224,29 @@ double testTiempos_ord_monticulos(int v[], int n){
         }
         t2=microsegundos();
         t=(t-t2+t1)/K;
-    }
+        printf(" * ");
+    }else printf("   ");
+    printf("%6.2lf", t);
     return t;
 }
 
 
 //TESTS
 void testOrd_monticulos(){
-	int i, v[7], n=7;
+    int i, v[7], n=7;
     setVedtor(v, n, 1);
 
     printf("Prueba ord_monticulo\nvector inicial: ");
-    for(i=1; i<n; i++){
-		printf("%d ", v[i]);
-	}
+    for(i=0; i<n; i++){
+        printf("%d ", v[i]);
+    }
 
     ord_monticulo(v, n);
 
     printf("\nvector ordenado: ");
-	for(i=1; i<n; i++){
-		printf("%d ", v[i]);
-	}printf("\n");
+    for(i=0; i<n; i++){
+        printf("%d ", v[i]);
+    }printf("\n");
 }
 
 void testCrear_monticulo(){
@@ -263,9 +263,9 @@ void testCrear_monticulo(){
     v[6]=8;
 
     printf("Prueba crear_monticulo\nvector inicial: ");
-    for(i=1; i<n; i++){
-		printf("%d ", v[i]);
-	}
+    for(i=0; i<n; i++){
+        printf("%d ", v[i]);
+    }
 
     crear_monticulo(v,n,&M);
 
