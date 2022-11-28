@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <sys/time.h>
+
 //GENERALES
 void ascendente(int [], int);
 
@@ -19,6 +20,12 @@ void iniciar_monticulo(monticulo*);
 void crear_monticulo(int [], int, monticulo*);
 void hundir(monticulo* , int);
 int eliminar_mayor(monticulo *);
+
+//ORDENACION
+void ord_monticulo(int v[], int n);
+
+//TESTS_TIEMPOS
+double testTiempo_monticulo(int v[], int n, monticulo M);
 
 int main(){
     int v[5];
@@ -105,7 +112,21 @@ int eliminar_mayor(monticulo* M){
     }
 }
 
-testTiempo_monticulo(int v[], int n, monticulo M){
+
+//ORDENACION
+void ord_monticulo(int v[], int n){
+    int i;
+    monticulo M;
+    iniciar_monticulo(&M);
+    crear_monticulo(v, n, &M);
+    for(i=n; i==1; i--){
+        v[i]=eliminar_mayor(&M);
+    }
+}
+
+
+//TEST_TIEMPOS
+double testTiempo_monticulo(int v[], int n, monticulo M){
     double t1, t2, t;
     int i;
     ascendente(v, n);
