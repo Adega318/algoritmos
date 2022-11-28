@@ -12,7 +12,7 @@ void descendente(int [], int);
 void setVedtor(int [], int, int);
 
 //TIEMPOS
-#define N 250000
+#define N 512000
 #define S 4000
 #define T 500
 #define K 1000
@@ -43,6 +43,7 @@ void testCrear_monticulo();
 
 int main(){
     int v[N], n;
+    double t;
     monticulo M;
     inicializar_semilla();
     iniciar_monticulo(&M);
@@ -52,11 +53,20 @@ int main(){
     testCrear_monticulo();
     
     //TIEMPOS
+    printf("Cereacion de monticulos:\n");
+    printf("|n       |t(n)        |t(n)/n      |t(n)/n^1.24 |t(n)/n^1.55\n");
     for(n=S; n<=N; n*=2){
-        testTiempo_monticulo(v, n, M);
+        printf("| %6d |", n);
+        t=testTiempo_monticulo(v, n, M);
+        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1), t/pow(n, 1.24), t/pow(n, 1.55));
     }
+
+    printf("Ordenacion por monticulos:\n");
+    printf("|n       |t(n)        |t(n)/n      |t(n)/n^1.24 |t(n)/n^1.55\n");
     for(n=S; n<=N; n*=2){
-        testTiempos_ord_monticulos(v, n);
+        printf("| %6d |", n);
+        t=testTiempos_ord_monticulos(v, n);
+        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1), t/pow(n, 1.24), t/pow(n, 1.55));
     }
 
     return 0;
@@ -197,7 +207,7 @@ double testTiempo_monticulo(int v[], int n, monticulo M){
         t=(t2-t1)/K;
         printf(" * ");
     }else printf("   ");
-    printf("%6.2lf", t);
+    printf("%9.2lf", t);
     return t;
 }
 
@@ -226,7 +236,7 @@ double testTiempos_ord_monticulos(int v[], int n){
         t=(t-t2+t1)/K;
         printf(" * ");
     }else printf("   ");
-    printf("%6.2lf", t);
+    printf("%9.2lf", t);
     return t;
 }
 
