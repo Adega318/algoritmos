@@ -65,9 +65,9 @@ int main(){
 
     for(i=1; i<=3; i++){
         printf("\nOrdenación por montículos (vector ");
-        if(i==1) printf("aleatorio)\n");
-        else if(i==2) printf("ascendente)\n");
-        else printf("descendente)\n");
+        if(i==1) printf("aleatorio):\n");
+        else if(i==2) printf("ascendente):\n");
+        else printf("descendente):\n");
         printf("|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15\n");
         calentar();
         for(n=S; n<=N; n*=2){
