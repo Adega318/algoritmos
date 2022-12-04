@@ -5,6 +5,7 @@
 #include <sys/time.h>
 
 //GENERALES
+void calentar();
 void inicializar_semilla();
 void aleatorio(int [], int);
 void ascendente(int [], int);
@@ -34,7 +35,7 @@ void ord_monticulo(int [], int);
 
 //TESTS_TIEMPOS
 double testTiempo_monticulo(int [], int, monticulo);
-double testTiempos_ord_monticulos(int [], int);
+double testTiempos_ord_monticulos(int [], int, int);
 
 //TESTES
 void testOrd_monticulos();
@@ -53,20 +54,40 @@ int main(){
     testCrear_monticulo();
     
     //TIEMPOS
-    printf("Cereacion de monticulos:\n");
-    printf("|n       |t(n)        |t(n)/n      |t(n)/n^1.24 |t(n)/n^1.55\n");
+    printf("\nCreación de montículos:\n");
+    printf("|n       |t(n)        |t(n)/n      |t(n)/n^1.02 |t(n)/n^1.25\n");
+    calentar();
     for(n=S; n<=N; n*=2){
         printf("| %6d |", n);
         t=testTiempo_monticulo(v, n, M);
-        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1), t/pow(n, 1.24), t/pow(n, 1.55));
+        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 0.90), t/pow(n, 1.02), t/pow(n, 1.25));
     }
 
-    printf("Ordenacion por monticulos:\n");
-    printf("|n       |t(n)        |t(n)/n      |t(n)/n^1.24 |t(n)/n^1.55\n");
+    printf("\nOrdenación por montículos (vector ascendente):\n");
+    printf("|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15\n");
+    calentar();
     for(n=S; n<=N; n*=2){
         printf("| %6d |", n);
-        t=testTiempos_ord_monticulos(v, n);
-        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1), t/pow(n, 1.24), t/pow(n, 1.55));
+        t=testTiempos_ord_monticulos(v, n, 2);
+        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1.05), t/pow(n, 1.09), t/pow(n, 1.15));
+    }
+
+    printf("\nOrdenación por montículos (vector descendente):\n");
+    printf("|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15\n");
+    calentar();
+    for(n=S; n<=N; n*=2){
+        printf("| %6d |", n);
+        t=testTiempos_ord_monticulos(v, n, 3);
+        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1.05), t/pow(n, 1.09), t/pow(n, 1.15));
+    }
+
+    printf("\nOrdenación por montículos (vector aleatorio):\n");
+    printf("|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15\n");
+    calentar();
+    for(n=S; n<=N; n*=2){
+        printf("| %6d |", n);
+        t=testTiempos_ord_monticulos(v, n, 1);
+        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1.05), t/pow(n, 1.09), t/pow(n, 1.15));
     }
 
     return 0;
@@ -74,6 +95,15 @@ int main(){
 
 
 //GENERALES
+void calentar(){
+    int i, v[10];
+    monticulo M;
+    for(i=0; i<=N; i++){
+        aleatorio(v, 10);
+        crear_monticulo(v, 10, &M);
+    }
+}
+
 void inicializar_semilla() {
     srand(time(NULL));
 }
@@ -150,7 +180,7 @@ void hundir(monticulo* M, int i){
     while (j!=i)
     {
         hizq=2*i+1;
-        hder=2*(i+1);
+        hder=2*i+2;
         j=i;
 
         if(hder<=M->ultimo && M->vector[hder]>M->vector[i]){
@@ -211,10 +241,10 @@ double testTiempo_monticulo(int v[], int n, monticulo M){
     return t;
 }
 
-double testTiempos_ord_monticulos(int v[], int n){
+double testTiempos_ord_monticulos(int v[], int n, int ord){
     double t1, t2, t;
     int i;
-    setVedtor(v, n, 1);
+    setVedtor(v, n, ord);
 
     t1=microsegundos();
         ord_monticulo(v, n);
@@ -260,7 +290,7 @@ void testOrd_monticulos(){
 }
 
 void testCrear_monticulo(){
-    int i, n=7;
+    int i, j, n=7;
     monticulo M;
 
     int v[n];
@@ -272,17 +302,34 @@ void testCrear_monticulo(){
     v[5]=5;
     v[6]=8;
 
-    printf("Prueba crear_monticulo\nvector inicial: ");
+    printf("\nPrueba crear_monticulo\nvector inicial: ");
     for(i=0; i<n; i++){
         printf("%d ", v[i]);
     }
 
     crear_monticulo(v,n,&M);
 
+    printf("\nvector monticulo esperado: 17 9 14 4 6 5 8");
+
     printf("\nvector monticulo: ");
     for(i=0;i<n;i++){
         printf("%d ",M.vector[i]);
     }printf("\n");
+
+    printf("\nPrueba vaciar monticulo\nvector inicial: ");
+    for(i=0;i<n;i++){
+        printf("%d ",M.vector[i]);
+    }printf("\n");
+
+    for(j=0; j<n; j++){
+        printf("valor a eliminar: %d\n", M.vector[0]);
+        eliminar_mayor(&M);
+        for(i=0;i<M.ultimo+1;i++){
+            printf("%d ",M.vector[i]);
+        }
+        if(M.ultimo==-1)printf("vacio");
+        printf("\n");
+    }
     //17-9-14-4-6-5-8
     
 }

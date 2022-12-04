@@ -1,0 +1,91 @@
+Enrique Adega Fernandez - e.adega@udc.es // Antonio Buceta Paz - antonio.buceta@udc.es
+
+>>Equipo utilizado
+Máquina: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz (RAM: 16.0GB)
+SO: Nobara release 36 (Thirty Six) x86_64
+Kernel: Linux lenovo 5.19.9-201.fsync.fc36.x86_64
+
+
+>>Introducción
+La práctica consiste en la medición y comparación de tiempos y costas de la creación de un montículo con un
+vector de n elementos ascendentes y la ordenación de un vector con la creación de un montículo con
+el mismo y posterior ordenación usando la eliminación del mayor repetidamente, la ordenación se realizará para
+el vector de entrada ascendente, descendente y aleatorio.
+
+
+>>Notas
+Se probarán los algoritmos con 8 tamaños de vector: 4000, 8000, 16000, 32000, 64000, 128000, 256000 y 512000.
+Las mediciones se hacen en microsegundos.
+Cuando se detecte una ejecución con un tiempo menor de 500 microsegundos, se realizara la media de 1000
+iteraciones y pondrá un indicador “*” en las tablas.
+
+Creación de montículos:
+|n       |t(n)        |t(n)/n      |t(n)/n^1.02 |t(n)/n^1.25
+|   4000 | *    106.89| 0.06124504 | 0.02263725 | 0.00336008
+|   8000 | *    202.27| 0.06210750 | 0.02112386 | 0.00267339
+|  16000 | *    416.70| 0.06856689 | 0.02145952 | 0.00231565
+|  32000 |      836.00| 0.07371762 | 0.02123016 | 0.00195330
+|  64000 |     1758.00| 0.08307243 | 0.02201483 | 0.00172701
+| 128000 |     3137.00| 0.07943750 | 0.01937137 | 0.00129569
+| 256000 |     6556.00| 0.08896578 | 0.01996338 | 0.00113852
+| 512000 |    14105.00| 0.10257231 | 0.02117960 | 0.00102988
+
+Ordenación por montículos (vector ascendente):
+|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15
+|   4000 |     1057.00| 0.17454684 | 0.12526496 | 0.07615633
+|   8000 |     2028.00| 0.16174224 | 0.11290154 | 0.06584374
+|  16000 |     4306.00| 0.16586244 | 0.11261163 | 0.06299935
+|  32000 |     8681.00| 0.16149619 | 0.10664888 | 0.05723310
+|  64000 |    18059.00| 0.16225748 | 0.10422155 | 0.05365210
+| 128000 |    37613.00| 0.16321779 | 0.10197157 | 0.05035545
+| 256000 |    82735.00| 0.17339529 | 0.10536775 | 0.04991296
+| 512000 |   167164.00| 0.16920348 | 0.10000886 | 0.04544460
+
+Ordenación por montículos (vector descendente):
+|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15
+|   4000 |      934.00| 0.15423534 | 0.11068824 | 0.06729424
+|   8000 |     1982.00| 0.15807353 | 0.11034066 | 0.06435024
+|  16000 |     4229.00| 0.16289648 | 0.11059791 | 0.06187279
+|  32000 |     8627.00| 0.16049161 | 0.10598547 | 0.05687708
+|  64000 |    18645.00| 0.16752260 | 0.10760345 | 0.05539307
+| 128000 |    38833.00| 0.16851186 | 0.10527908 | 0.05198876
+| 256000 |    82310.00| 0.17250458 | 0.10482649 | 0.04965656
+| 512000 |   170273.00| 0.17235041 | 0.10186888 | 0.04628980
+
+Ordenación por montículos (vector aleatorio):
+|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15
+|   4000 |     1111.00| 0.18346409 | 0.13166449 | 0.08004700
+|   8000 |     2350.00| 0.18742321 | 0.13082772 | 0.07629821
+|  16000 |     5072.00| 0.19536792 | 0.13264426 | 0.07420638
+|  32000 |    10749.00| 0.19996804 | 0.13205492 | 0.07086725
+|  64000 |    23380.00| 0.21006589 | 0.13492994 | 0.06946044
+| 128000 |    49645.00| 0.21542944 | 0.13459119 | 0.06646363
+| 256000 |   107979.00| 0.22630145 | 0.13751743 | 0.06514234
+| 512000 |   237120.00| 0.24001298 | 0.14186130 | 0.06446259
+
+En el caso de la creación de montículos de n elementos, las cotas son las siguientes:
+    Subestimada: n, su cociente con los tiempos reales presenta estrictamente crecimiento.
+    Ajustada: n^1.02, su cociente con los tiempos reales tiende al valor de 0.02…
+    Sobrestimada: n^1.25, su cociente con los tiempos reales es estrictamente decreciente.
+
+En el caso de la ordenación por montículo de n elementos, las cotas son las siguientes:
+    Subestimada: n^1.05, su cociente con los tiempos reales presenta estrictamente crecimiento.
+    Ajustada: n^1.09, su cociente con los tiempos reales tiende al valor de 0.13… en el caso aleatorio y 0.1… en
+    el ascendente y descendente.
+    Sobrestimada: n^1.15, su cociente con los tiempos reales es estrictamente decreciente.
+
+
+>>Observaciones
+
+Con respecto a la creación de montículos de n elementos ascendentes, consideramos la ajustada n^1.02.
+Con respecto a la ordenación por montículo de n elementos, consideramos la ajustada n^1.09.
+
+
+>>Conclusiones
+
+Fijándonos en ambas complejidades, la ordenación es superior, esperable a causa que la ordenación implica el uso
+de la creación del montículo y la eliminación de sus elementos.
+
+Considerando las complejidades teóricas podemos concluir que son muy similares a las empíricas, siendo las
+teóricas de O(nlogn) para la ordenación y O(n) para la creación.
+
