@@ -43,7 +43,7 @@ void testCrear_monticulo();
 
 
 int main(){
-    int v[N], n;
+    int v[N], n, i;
     double t;
     monticulo M;
     inicializar_semilla();
@@ -63,31 +63,18 @@ int main(){
         printf("| %.8f | %.8f | %.8f\n", t/pow(n, 0.90), t/pow(n, 1.02), t/pow(n, 1.25));
     }
 
-    printf("\nOrdenación por montículos (vector ascendente):\n");
-    printf("|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15\n");
-    calentar();
-    for(n=S; n<=N; n*=2){
-        printf("| %6d |", n);
-        t=testTiempos_ord_monticulos(v, n, 2);
-        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1.05), t/pow(n, 1.09), t/pow(n, 1.15));
-    }
-
-    printf("\nOrdenación por montículos (vector descendente):\n");
-    printf("|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15\n");
-    calentar();
-    for(n=S; n<=N; n*=2){
-        printf("| %6d |", n);
-        t=testTiempos_ord_monticulos(v, n, 3);
-        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1.05), t/pow(n, 1.09), t/pow(n, 1.15));
-    }
-
-    printf("\nOrdenación por montículos (vector aleatorio):\n");
-    printf("|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15\n");
-    calentar();
-    for(n=S; n<=N; n*=2){
-        printf("| %6d |", n);
-        t=testTiempos_ord_monticulos(v, n, 1);
-        printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1.05), t/pow(n, 1.09), t/pow(n, 1.15));
+    for(i=1; i<=3; i++){
+        printf("\nOrdenación por montículos (vector ");
+        if(i==1) printf("aleatorio)\n");
+        else if(i==2) printf("ascendente)\n");
+        else printf("descendente)\n");
+        printf("|n       |t(n)        |t(n)/n^1.05 |t(n)/n^1.09 |t(n)/n^1.15\n");
+        calentar();
+        for(n=S; n<=N; n*=2){
+            printf("| %6d |", n);
+            t=testTiempos_ord_monticulos(v, n, i);
+            printf("| %.8f | %.8f | %.8f\n", t/pow(n, 1.05), t/pow(n, 1.09), t/pow(n, 1.15));
+        }
     }
 
     return 0;
